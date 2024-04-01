@@ -1,0 +1,39 @@
+.dogCardHand {
+    z-index: 1;
+    position: absolute;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    top: 0;
+
+    height: 10rem;
+    width: auto;
+}
+
+.frontCover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
+    z-index: 3;
+}
+
+.frontCover h1 {
+    font-size: 10.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.startButton {
+    background-color: #f7f7f7;
+    color: #000;
+    font-size: 2.5rem;
+    font-weight: 700;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    margin-top: 2rem;
+}
+
