@@ -14,6 +14,7 @@ const ROUTES  = {
 
     GAME: gameBaseRoute,
     GAMEMAP: gameBaseRoute + "/map",
+    DECKMANAGER: gameBaseRoute + "/deck",
     PLAYERPROFILE: gameBaseRoute  + "/profile",
 
     DASHBOARD: "/dashboard",
@@ -25,13 +26,14 @@ function makeRoutes() {
             <Routes>
                 <Route path={ROUTES.LANDING} element={<LandingPage />} />
                 <Route path={ROUTES.LOGIN} element={<LogIn />}/>
-                <Route path={ROUTES.SIGNUP} />
+                <Route path={ROUTES.SIGNUP} <SignUp /> />
 
                 <Route path={ROUTES.GAME} element={<Game />}/>\
                 <Route path={ROUTES.GAMEMAP} element={<GameMap />} />
-                <Route path={ROUTES.PLAYERPROFILE} />
+                <Route path={ROUTES.DECKMANAGER} element={<DeckManager />} />
+                <Route path={ROUTES.PLAYERPROFILE} element={<ProfilePage />} />
 
-                <Route path={ROUTES.DASHBOARD} />
+                <Route path={ROUTES.DASHBOARD} element={<GameDashBoard />}/>
             </Routes>
         </BrowserRouter>
     );
