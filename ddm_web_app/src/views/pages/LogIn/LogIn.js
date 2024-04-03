@@ -15,7 +15,7 @@ function LogIn() {
 
         console.log(username, password);
         //TODO: Remove this
-        if(username === "admin" && password === "123") {
+        if(username === "admin" && password  === "123") {
             if (rememberMe)
                 keepAuthKey("override");
             navigate(ROUTES.GAME);
@@ -36,6 +36,10 @@ function LogIn() {
         });
     }
 
+    function onSignUpClick() {
+        navigate(ROUTES.SIGNUP)
+    }
+
     return (
         <div className={styles.logInPage}>
             <form className={styles.logInForm} onSubmit={onSubmit}>
@@ -51,7 +55,7 @@ function LogIn() {
                 </label>
                 <button className={styles.logInForm} id={styles["submitButton"]}>Submit</button>
                 <label className={styles.logInForm} id={styles["signUpButton"]}>
-                    <a href={ROUTES.SIGN_UP}>Sign Up</a>
+                    <a href={ROUTES.SIGN_UP} onClick={onSignUpClick}>Sign Up</a>
                 </label>
             </form>
         </div>

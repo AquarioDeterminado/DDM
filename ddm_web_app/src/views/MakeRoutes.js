@@ -3,6 +3,10 @@ import LandingPage from "./pages/LandingPage/LandingPage";
 import Game from "./pages/Game/Game";
 import LogIn from "./pages/LogIn/LogIn";
 import GameMap from "./pages/GameMap/GameMap";
+import SignUp from "./pages/SignUp/SignUp";
+import DeckManager from "./pages/DeckManager/DeckManager";
+import ProfilePage from "./pages/ProfilePage/ProfilePage";
+import GameDashBoard from "./pages/GameDashBoard/GameDashBoard";
 
 const gameBaseRoute = "/game";
 
@@ -26,14 +30,14 @@ function makeRoutes() {
             <Routes>
                 <Route path={ROUTES.LANDING} element={<LandingPage />} />
                 <Route path={ROUTES.LOGIN} element={<LogIn />}/>
-                <Route path={ROUTES.SIGNUP} <SignUp /> />
+                <Route path={ROUTES.SIGNUP} element={<SignUp/>} />
 
                 <Route path={ROUTES.GAME} element={<Game />}/>\
                 <Route path={ROUTES.GAMEMAP} element={<GameMap />} />
                 <Route path={ROUTES.DECKMANAGER} element={<DeckManager />} />
                 <Route path={ROUTES.PLAYERPROFILE} element={<ProfilePage />} />
 
-                <Route path={ROUTES.DASHBOARD} element={<GameDashBoard />}/>
+                <Route path={ROUTES.DASHBOARD} element={<GameDashBoard />} />
             </Routes>
         </BrowserRouter>
     );
