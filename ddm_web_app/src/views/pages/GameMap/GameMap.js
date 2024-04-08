@@ -1,10 +1,15 @@
 import styles from "./GameMap.module.css";
 import ProfileButton from "../../components/ProfileButton/ProfileButton";
 import CardHand from "../../components/CardHand/CardHand";
-import { MapContainer, TileLayer } from "react-leaflet";
+import {MapContainer, Marker, Popup, TileLayer} from "react-leaflet";
 import {useRef} from "react";
+import {ROUTES} from "../../MakeRoutes";
+import {useNavigate} from "react-router-dom";
 
-const SimpleMap = () => {
+function Map() {
+
+    const navigator = useNavigate();
+
     const mapRef = useRef(null);
     const latitude = 51.505;
     const longitude = -0.09;
@@ -16,16 +21,16 @@ const SimpleMap = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            {/* Additional map layers or components can be added here */}
+            <Marker position={[51.505, -0.09]} eventHandlers={{
+                click: (e) => {
+                    navigator(ROUTES.DOGBATTLE);
+                },
+            }}>
+                <Popup>
+                    A pretty CSS3 popup. <br /> Easily customizable.
+                </Popup>
+            </Marker>
         </MapContainer>
-    );
-};
-
-
-function Map() {
-
-    return (
-        <SimpleMap />
     );
 }
 
@@ -37,7 +42,7 @@ function GameMap() {
           </div>
           <Map/>
           <div className={styles.cardHand}>
-            <CardHand/>
+            <CardHand />
           </div>
       </div>
   );

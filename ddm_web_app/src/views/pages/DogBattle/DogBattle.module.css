@@ -1,0 +1,44 @@
+/* Players Info */
+
+.dogBattle {
+}
+
+.playerInfo {
+}
+
+.userSide {
+}
+
+.opponentSide {
+
+}
+
+.playerPhoto {
+}
+
+
+.userDeck {
+
+}
+
+.opponentDeck {
+}
+
+.cardDeck {
+  background-color: lightgray;
+}
+
+
+/* Battle Field */
+.battleField {
+
+}
+
+.battleField__user {
+}
+
+.battleField__battleState {
+}
+
+.battleField__opponent {
+}

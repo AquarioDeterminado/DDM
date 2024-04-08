@@ -36,10 +36,6 @@ function LogIn() {
         });
     }
 
-    function onSignUpClick() {
-        navigate(ROUTES.SIGNUP)
-    }
-
     return (
         <div className={styles.logInPage}>
             <form className={styles.logInForm} onSubmit={onSubmit}>
@@ -55,7 +51,7 @@ function LogIn() {
                 </label>
                 <button className={styles.logInForm} id={styles["submitButton"]}>Submit</button>
                 <label className={styles.logInForm} id={styles["signUpButton"]}>
-                    <a href={ROUTES.SIGN_UP} onClick={onSignUpClick}>Sign Up</a>
+                    <a href={ROUTES.SIGNUP} >Sign Up</a>
                 </label>
             </form>
         </div>

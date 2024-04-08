@@ -7,6 +7,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import DeckManager from "./pages/DeckManager/DeckManager";
 import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import GameDashBoard from "./pages/GameDashBoard/GameDashBoard";
+import DogBattle from "./pages/DogBattle/DogBattle";
 
 const gameBaseRoute = "/game";
 
@@ -18,6 +19,7 @@ const ROUTES  = {
 
     GAME: gameBaseRoute,
     GAMEMAP: gameBaseRoute + "/map",
+    DOGBATTLE: gameBaseRoute + "/BATTLEEEEE",
     DECKMANAGER: gameBaseRoute + "/deck",
     PLAYERPROFILE: gameBaseRoute  + "/profile",
 
@@ -34,6 +36,7 @@ function makeRoutes() {
 
                 <Route path={ROUTES.GAME} element={<Game />}/>\
                 <Route path={ROUTES.GAMEMAP} element={<GameMap />} />
+                <Route path={ROUTES.DOGBATTLE} element={<DogBattle />} />
                 <Route path={ROUTES.DECKMANAGER} element={<DeckManager />} />
                 <Route path={ROUTES.PLAYERPROFILE} element={<ProfilePage />} />
 

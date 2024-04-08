@@ -1,3 +1,5 @@
+const API_URL = "http://localhost:5000";
+22
 export async function expect(request, after) {
     try {
         await fetch(request).then( (response) => {
