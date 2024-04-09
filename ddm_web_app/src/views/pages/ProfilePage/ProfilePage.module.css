@@ -1,0 +1,15 @@
+.profileBox{
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+
+	border: solid 3px;
+	padding: 1%;
+	max-width: 75%;
+	background-color: brown;
+}
+
+.profileName{
+	background-color: blue;
+
+}
