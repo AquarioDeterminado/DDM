@@ -1,15 +1,45 @@
 .profileBox{
 	display: flex;
-	flex-direction: column;
-	align-content: center;
-
 	border: solid 3px;
 	padding: 1%;
-	max-width: 75%;
+	flex-direction: column;
+
+	justify-content:baseline;
 	background-color: brown;
 }
 
 .profileName{
+	align-self: center;
 	background-color: blue;
+}
+.profileHeader{
+	display:flex;
+	flex-direction: row;
+}
 
+.image{
+	width: 15%;
+	height: auto;
+	margin-right: 5%;
+}
+.statTable{
+	align-items: center;
+	display:flex;
+	flex-direction: column;
+}
+
+.statsRow{
+	display:flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 30%;
+}
+.stat{
+	display:flex;
+
+}
+
+.statsInfo{
+	justify-content: space-between;
+	width: 100%;
 }
