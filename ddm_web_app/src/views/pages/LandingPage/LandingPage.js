@@ -2,6 +2,7 @@ import styles from './LandingPage.module.css';
 import {ReactComponent as Card1} from "../../assets/Card1.svg";
 import {ROUTES} from "../../MakeRoutes";
 import {useNavigate} from "react-router-dom";
+import {useTranslation} from "react-i18next";
 
 function DogCardHand() {
     return (
@@ -27,9 +28,13 @@ function StartButton() {
 }
 
 function FrontCover() {
+    const {t, i18n} = useTranslation();
+    const changeLanguage = lng => {
+        i18n.changeLanguage(lng);
+    };
     return(
         <div className={styles.frontCover}>
-            <h1 className={styles.frontCover}>DDM</h1>
+            <h1 className={styles.frontCover}>{t("gameTitle")}</h1>
             <StartButton />
             <DogCardHand />
         </div>

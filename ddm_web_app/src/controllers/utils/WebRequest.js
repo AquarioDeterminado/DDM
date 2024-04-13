@@ -1,5 +1,5 @@
-const API_URL = "http://localhost:5000";
-22
+export const DDM_API_URL = "http://localhost:5000";
+
 export async function expect(request, after) {
     try {
         await fetch(request).then( (response) => {
@@ -14,5 +14,5 @@ export async function expect(request, after) {
     }
 }
 
-const WebRequest = {expect: expect};
+const WebRequest = {expect: expect, API_URL: DDM_API_URL};
 export default WebRequest;
