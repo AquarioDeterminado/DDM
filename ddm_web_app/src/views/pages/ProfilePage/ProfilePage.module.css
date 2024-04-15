@@ -4,22 +4,36 @@
 	padding: 1%;
 	flex-direction: column;
 
-	justify-content:baseline;
-	background-color: brown;
+	justify-content:center;
+	height: 5%;
+	background-color:grey;
 }
+.headerInfo{
+	display:flex;
+	flex-direction: row;
 
+	background-color: blue;
+}
 .profileName{
 	align-self: center;
-	background-color: blue;
+}
+.settingsButton{
+	align-self: center;
+	margin-left: 3%;
 }
 .profileHeader{
 	display:flex;
 	flex-direction: row;
 }
 
-.image{
+.profileImage{
 	width: 15%;
 	height: auto;
+	margin-right: 5%;
+}
+.settingsImage{
+	width: 7%;
+	height: 7%;
 	margin-right: 5%;
 }
 .statTable{
