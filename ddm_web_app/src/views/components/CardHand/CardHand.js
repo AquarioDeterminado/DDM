@@ -1,20 +1,34 @@
-import {ReactComponent as CardHandSVG} from "../../assets/CardHand.svg";
-import {useNavigate} from "react-router-dom";
-import {ROUTES} from "../../MakeRoutes";
 import styles from  "./CardHand.module.css";
+import {useEffect, useState} from "react";
+import {getCurrentHand} from "../../../controllers/UserController";
+import card from "../Card/Card";
+import INFO_STATUS from "../../../controllers/utils/InfoStatus";
 
-function CardHand() {
+function CardHand(props) {
 
-    const navigate = useNavigate();
+    const [cards, setCards] = useState({status: INFO_STATUS.LOADING});
 
-    function handleClick() {
-        navigate(ROUTES.DECKMANAGER)
-    }
+    const {onClick} = props;
+
+    useEffect(() => {
+
+        getCurrentHand((res, status) => {
+            if (status === 200)
+                setCards(res.cards);
+        });
+
+    }, []);
+
 
   return (
-    <div onClick={handleClick} className={styles.cardHand}>
-      <CardHandSVG/>
-    </div>
+      <div onClick={onClick} className={styles.cardHand}>
+          <h2>Your Hand</h2>
+          <div className={styles.cardRow}>
+              {cards.state === INFO_STATUS.READY ? cards.cards.map((card) => {
+                  return <card key={card.id} card={card} />
+              }): "ERROR"}
+          </div>
+      </div>
   );
 }
 

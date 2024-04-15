@@ -1,7 +1,17 @@
 .cardHand {
-    opacity: 100%;
+    display: flex;
+    margin-bottom: 20px;
+    flex-direction: column;
+    background-color: lightgray;
+    align-items: center;
+    border-radius: 25px;
 }
 
-
+.cardRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 
 
