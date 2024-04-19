@@ -1,13 +1,41 @@
 .settingsBox {
-	display: flex;
 	border: solid 3px;
 	padding: 1%;
-
-	justify-content: center;
 	height: 5%;
 	margin-top: 50%;
 	margin-left: 15%;
 	margin-right: 15%;
 
 	background-color: rgb(211, 211, 211);
+}
+.backButton{
+	margin-right: 96%;
+}
+.settingsTitle {
+	display: flex;
+	align-self: center;
+}
+
+.SettingsInfo {
+	display: flex;
+	flex-direction: column;
+}
+.settingsOptions{
+	display: flex;
+	flex-direction: column;
+}
+.saveButton,
+.logOffButton{
+	background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 5%;
+}
+.buttons{
+	display: flex;
+    justify-content: center;
+	margin-top: 20px;
 }

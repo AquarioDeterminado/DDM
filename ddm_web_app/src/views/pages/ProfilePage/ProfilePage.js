@@ -11,6 +11,7 @@ function Profile() {
 					<h2 >Minion_Destroyer</h2>
 					<p>
 						Email: minionDestroyer49000@sapo.az
+						<br></br>
 						Location: Chiado
 					</p>
 				</div>
