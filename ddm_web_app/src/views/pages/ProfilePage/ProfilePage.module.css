@@ -6,20 +6,36 @@
 
 	justify-content:center;
 	height: 5%;
+	margin-top: 20%;
+	margin-left: 15%;
+	margin-right: 15%;
+
+	background-color:rgb(211, 211, 211);
+}
+.statsBox{
+	margin-left: 20%;
+	margin-right: 20%;
+	padding: 1%;
+	border-radius: 25px;
 	background-color:grey;
 }
+.statTable{
+	display:flex;
+	flex-direction: column;
+	margin-left: 10%;
+	margin-right: 10%;
+}
+
 .headerInfo{
 	display:flex;
 	flex-direction: row;
-
-	background-color: blue;
 }
 .profileName{
 	align-self: center;
 }
 .settingsButton{
-	align-self: center;
-	margin-left: 3%;
+
+	margin-left: 93%
 }
 .profileHeader{
 	display:flex;
@@ -27,33 +43,12 @@
 }
 
 .profileImage{
-	width: 15%;
+	width: 25%;
 	height: auto;
 	margin-right: 5%;
 }
 .settingsImage{
-	width: 7%;
-	height: 7%;
+	width: 25px;
+	height:auto;
 	margin-right: 5%;
-}
-.statTable{
-	align-items: center;
-	display:flex;
-	flex-direction: column;
-}
-
-.statsRow{
-	display:flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 30%;
-}
-.stat{
-	display:flex;
-
-}
-
-.statsInfo{
-	justify-content: space-between;
-	width: 100%;
 }
