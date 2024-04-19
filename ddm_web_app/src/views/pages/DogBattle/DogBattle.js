@@ -14,6 +14,16 @@ function DogBattle(props) {
     const [opponentInfo, setOpponentInfo] = useState({state: INFO_STATUS.LOADING});
     const [playerInfo, setPlayerInfo] = useState({state: INFO_STATUS.LOADING});
 
+    const opponentInfoStyle = {
+        playerInfo: styles.opponentInfo,
+        playerPhoto: styles.opponentPhoto,
+    };
+
+    const playerInfoStyle = {
+        playerInfo: styles.playerInfo,
+        playerPhoto: styles.playerPhoto,
+    };
+
     useEffect(() => {
 
         getBattleInfo((info) => {
@@ -47,24 +57,27 @@ function DogBattle(props) {
     return ( //TODO: Error Handling;
         <div className={styles.dogBattle}>
             <div className={styles.opponentSide}>
-                <PlayerFigthingInfo playerInfo={opponentInfo} style={styles.opponentInfo} />
+                <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle} />
                 <CardHand/>
             </div>
 
             <div className={styles.battleField}>
                 <div className={styles.battleField__user}>
+                    USER CARD
                 </div>
 
                 <div className={styles.battleField__battleState}>
+                    BATTLE STATE
                 </div>
 
                 <div className={styles.battleField__opponent}>
+                    OPPONENT CARD
                 </div>
             </div>
 
 
             <div className={styles.userSide}>
-                <PlayerFigthingInfo playerInfo={playerInfo} style={styles.playerInfo} />
+                <PlayerFigthingInfo playerInfo={playerInfo} styles={playerInfoStyle} />
                 <CardHand/>
             </div>
         </div>

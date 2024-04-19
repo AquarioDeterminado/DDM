@@ -1,0 +1,16 @@
+{
+    "en": {
+        "translation": {
+            "hello": "Hello, World!",
+            "content": "This is a simple example of a page rendered by the server.",
+            "gameTitle": "DDM"
+        }
+    },
+    "pt": {
+        "translation": {
+            "hello": "Olá, Mundo!",
+            "content": "Este é um exemplo simples de uma página renderizada pelo servidor.",
+            "gameTitle": "DDM"
+        }
+    }
+}
