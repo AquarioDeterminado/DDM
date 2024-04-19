@@ -1,54 +1,53 @@
-.profileBox{
+.profileBox {
 	display: flex;
 	border: solid 3px;
 	padding: 1%;
-	flex-direction: column;
 
-	justify-content:center;
+	justify-content: center;
 	height: 5%;
-	margin-top: 20%;
+	margin-top: 50%;
 	margin-left: 15%;
 	margin-right: 15%;
 
-	background-color:rgb(211, 211, 211);
+	background-color: rgb(211, 211, 211);
 }
-.statsBox{
-	margin-left: 20%;
-	margin-right: 20%;
+
+.statsBox {
 	padding: 1%;
 	border-radius: 25px;
-	background-color:grey;
-}
-.statTable{
-	display:flex;
-	flex-direction: column;
-	margin-left: 10%;
-	margin-right: 10%;
+	background-color: grey;
 }
 
-.headerInfo{
-	display:flex;
-	flex-direction: row;
+.statTable {
+	margin-left: 6%;
 }
-.profileName{
+
+.settingsButton {
+	margin-top: 0;
+	margin-left: 0;
+	padding: 5px;
+	border-radius: 10px;
+
+
+}
+
+
+.profileName {
 	align-self: center;
 }
-.settingsButton{
 
-	margin-left: 93%
-}
-.profileHeader{
-	display:flex;
-	flex-direction: row;
+.profileInfo {
+	display: flex;
+	flex-direction: column;
+
 }
 
-.profileImage{
-	width: 25%;
-	height: auto;
-	margin-right: 5%;
-}
-.settingsImage{
-	width: 25px;
-	height:auto;
+
+.profileImage {
+
+	margin-top: 0;
+	margin-left: 0;
+	width: 20%;
+	height: 20%;
 	margin-right: 5%;
 }

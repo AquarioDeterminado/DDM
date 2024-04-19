@@ -1,0 +1,13 @@
+.settingsBox {
+	display: flex;
+	border: solid 3px;
+	padding: 1%;
+
+	justify-content: center;
+	height: 5%;
+	margin-top: 50%;
+	margin-left: 15%;
+	margin-right: 15%;
+
+	background-color: rgb(211, 211, 211);
+}
