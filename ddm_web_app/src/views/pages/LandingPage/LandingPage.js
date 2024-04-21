@@ -34,7 +34,7 @@ function FrontCover() {
     };
     return(
         <div className={styles.frontCover}>
-            <h1 className={styles.frontCover}>{t("gameTitle")}</h1>
+            <h1 className={styles.frontCover}>ddm</h1>
             <StartButton />
             <DogCardHand />
         </div>
@@ -45,9 +45,6 @@ function LandingPage() {
     return (
         <>
             <FrontCover />
-            <p> aosnd</p>
-            <p> aosnd</p>
-            <p> aosnd</p>
         </>
     );
 }

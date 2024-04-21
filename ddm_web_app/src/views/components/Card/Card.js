@@ -4,11 +4,11 @@ function Card(props) {
     return (
         <div className={styles.card}>
             <div className={styles.card__photo}>
-                <img src={props.cardinfo.photo} alt={props.cardinfo.name} />
+                <img src={props.cardInfo.photo} alt={props.cardInfo.name} />
             </div>
             <div className={styles.card__info}>
-                <h1>{props.cardinfo.name}</h1>
-                <p>{props.cardinfo.hp}</p>
+                <h2>{props.cardInfo.name}</h2>
+                <p>{props.cardInfo.hp + " hp"}</p>
             </div>
         </div>
     );

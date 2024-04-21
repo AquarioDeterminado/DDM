@@ -3,33 +3,25 @@ import {useEffect, useState} from "react";
 import {getCurrentHand} from "../../../controllers/UserController";
 import card from "../Card/Card";
 import INFO_STATUS from "../../../controllers/utils/InfoStatus";
+import Card from "../Card/Card";
 
 function CardHand(props) {
 
-    const [cards, setCards] = useState({status: INFO_STATUS.LOADING});
+    const {onClick, cards} = props;
 
-    const {onClick} = props;
-
-    useEffect(() => {
-
-        getCurrentHand((res, status) => {
-            if (status === 200)
-                setCards(res.cards);
-        });
-
-    }, []);
-
-
-  return (
-      <div onClick={onClick} className={styles.cardHand}>
-          <h2>Your Hand</h2>
-          <div className={styles.cardRow}>
-              {cards.state === INFO_STATUS.READY ? cards.cards.map((card) => {
-                  return <card key={card.id} card={card} />
-              }): "ERROR"}
-          </div>
-      </div>
-  );
+    if(cards !== undefined)
+        return (
+            <div onClick={onClick} className={styles.cardHand}>
+                <h2>Card Hand</h2>
+                <div className={styles.cardRow}>
+                    {cards.state === INFO_STATUS.READY ? cards.cards.map((card) => {
+                        return <Card key={card.id} cardInfo={card} />
+                    }): "ERROR"}
+                </div>
+            </div>
+        );
+    else
+        return (<> </>);
 }
 
 export default CardHand;

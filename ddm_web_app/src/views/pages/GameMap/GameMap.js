@@ -20,14 +20,15 @@ function Map() {
     const longitude = -0.09;
 
     useEffect(() => {
-        getEvents((res, status) => {
+        /*getEvents((res, status) => {
             if (status === 200) {
                 setEvents({events: res.events, state: INFO_STATUS.READY});
             } else {
-                setEvents({state: INFO_STATUS.ERROR});
+                setEvents({state: INFO_STATUS.ERROR})
             }
 
-        })
+        })*/
+        setEvents({events: [{title: "Player", description: "Player description", latitude: 51.505, longitude: -0.09}] , state: INFO_STATUS.READY});
     }, []);
 
     return (
@@ -44,7 +45,7 @@ function Map() {
                         <div>
                             <h2>{event.title}</h2>
                             <p>{event.description}</p>
-                            <button onClick={() =>  movePlayerTo({latitude: event.latitude, longitude: event.longitude}, navigate)}>Details</button>
+                            <button onClick={() =>  movePlayerTo({latitude: event.latitude, longitude: event.longitude}, navigate)}>Battle</button>
                         </div>
                     </Popup>
                 </Marker>
@@ -56,10 +57,15 @@ function Map() {
 function GameMap() {
 
     const navigate = useNavigate();
+    const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
 
     function handleCardClick() {
         navigate(ROUTES.DECKMANAGER);
     }
+
+    useEffect(() => {
+        setCards({state: INFO_STATUS.READY, cards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 2, name: "Card2", hp: 100, photo: "https://via.placeholder.com/150"}]})
+    }, []);
 
     return (
         <div className={styles.gameMap}>
@@ -68,7 +74,7 @@ function GameMap() {
             </div>
             <Map/>
             <div className={styles.cardHand}>
-                <CardHand onClick={handleCardClick}/>
+                <CardHand cards={cards} onClick={handleCardClick}/>
             </div>
         </div>
     );

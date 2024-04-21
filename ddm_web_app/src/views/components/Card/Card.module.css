@@ -1,0 +1,27 @@
+.card {
+    width: 125px;
+    max-width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 25px;
+    height: 200px;
+}
+
+.card__photo {
+    width: 50%;
+    height: 50%;
+    border-radius: 10px 10px 0 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.card__photo img {
+    width: 200%;
+    height: auto;
+    border-radius: 10px 10px 0 0;
+}
+
+.card__info {
+    margin: 10px;
+    justify-content: space-around;
+}

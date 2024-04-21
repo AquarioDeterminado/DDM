@@ -6,13 +6,18 @@ function getBattleInfo(callback) {
         }
     });
 
+    let status = 0;
     fetch(request)
         .then((res) => {
-            const status = res.status;
+            status = res.status;
             return res.json()
         })
         .then((data) => {
-            callback(data);
+            data = {battleInfo: {
+                    status: "Your Turn!",
+                    turn: 1}
+                    } //TODO: Remove this
+            callback(data, status);
         });
 }
 
@@ -24,13 +29,18 @@ function getCards(callback) {
         }
     });
 
+    let status = 0;
     fetch(request)
         .then((res) => {
-            const status = res.status;
+            status = res.status;
             return res.json()
         })
         .then((data) => {
-            callback(data);
+            data = {cards: {
+                    status: "Your Turn!",
+                    turn: 1}
+            } //TODO: Remove this
+            callback(data, status);
         });
 }
 
@@ -42,10 +52,14 @@ function getPlayersInfo(callback) {
         }
     });
 
+    let status = 0;
     fetch(request)
-        .then((res) => res.json())
+        .then((res) => {
+            status = res.status;
+            res.json()
+        })
         .then((data) => {
-            callback(data);
+            callback(data, status);
         });
 }
 
