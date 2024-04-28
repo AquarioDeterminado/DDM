@@ -7,7 +7,6 @@ import {ROUTES} from "../../MakeRoutes";
 
 import {useNavigate} from "react-router-dom";
 import INFO_STATUS from "../../../controllers/utils/InfoStatus";
-import {getEvents} from "../../../controllers/MapController";
 import {movePlayerTo} from "../../../controllers/MovementController";
 
 function Map() {
@@ -74,7 +73,7 @@ function GameMap() {
             </div>
             <Map/>
             <div className={styles.cardHand}>
-                <CardHand cards={cards} onClick={handleCardClick}/>
+                <CardHand cards={cards} onClick={handleCardClick} id={"currentHand"}/>
             </div>
         </div>
     );
