@@ -41,7 +41,6 @@ function Settings() {
 							<label htmlFor="username">Username:</label>
 							<input type="text" id="username" name="username" value={username} onChange={handleUsernameChange} />
 
-
 							<label htmlFor="difficulty">Difficulty:</label>
 							<select id="difficulty" name="difficulty" value={difficulty} onChange={handleDifficultyChange}>
 								<option value="easy">Easy</option>
