@@ -1,0 +1,62 @@
+.signUp {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 100vh;
+}
+
+
+.SignUpForm {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#usernameInputBox {
+	margin-bottom: 3rem;
+	height: 1rem;
+	border-radius: 1rem;
+	border: none;
+	padding-left: 1rem;
+	font-size: small;
+}
+
+#usernameInputBox input {
+	font-size: 2rem;
+}
+
+
+#passwordInputBox {
+	margin-bottom: 3rem;
+	height: 1rem;
+	border-radius: 1rem;
+	border: none;
+	padding-left: 1rem;
+	font-size: small;
+}
+
+#passwordInputBox input {
+	font-size: 2rem;
+}
+
+
+
+#rememberMeCheckBox {
+	margin-bottom: 3rem;
+	flex-direction: row;
+	width: 8rem;
+	justify-content: space-between;
+}
+
+#signUpButton {
+	margin: auto;
+	font-size: 2rem;
+	margin-bottom: 1rem;
+
+}
+
+#signUpButton:hover {
+	color: #bdc8ff;
+}
