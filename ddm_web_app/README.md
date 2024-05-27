@@ -12,5 +12,3 @@
 - The application will be running on `http://localhost:3000/`
 
 ### Have Fun! :)
-
----

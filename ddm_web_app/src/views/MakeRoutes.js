@@ -9,6 +9,7 @@ import ProfilePage from "./pages/ProfilePage/ProfilePage";
 import SettingsPage from "./pages/SettingsPage/SettingsPage";
 import GameDashBoard from "./pages/GameDashBoard/GameDashBoard";
 import DogBattle from "./pages/DogBattle/DogBattle";
+import ProfWeb from "./pages/ProfWeb/ProfWeb";
 
 const gameBaseRoute = "/game";
 
@@ -25,6 +26,7 @@ const ROUTES  = {
     PLAYERPROFILE: gameBaseRoute  + "/profile",
 	SETTINGSPAGE: gameBaseRoute  + "/profile/settings",
 
+    WEBPROF: "/webprof",
     DASHBOARD: "/dashboard",
 }
 
@@ -43,6 +45,7 @@ function makeRoutes() {
                 <Route path={ROUTES.PLAYERPROFILE} element={<ProfilePage />} />
                 <Route path={ROUTES.SETTINGSPAGE} element={<SettingsPage />} />
 
+                <Route path={ROUTES.WEBPROF} element={<ProfWeb />} />
 
                 <Route path={ROUTES.DASHBOARD} element={<GameDashBoard />} />
             </Routes>

@@ -8,7 +8,7 @@ function CardHand(props) {
     if(cards !== undefined)
         return (
             <div onClick={onClick} className={styles.cardHand}>
-                <CardRow cards={cards.cards} id={id} isContainer={isContainer}/>
+                <CardRow cards={cards} id={id} isContainer={isContainer}/>
             </div>
         );
     else

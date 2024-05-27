@@ -30,9 +30,6 @@ function DogBattle(props) {
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
     const [opponentCards, setOpponentCards] = useState({state: INFO_STATUS.LOADING});
 
-    const [playerPlayedCard, setPlayerPlayedCard] = useState();
-    const [opponentPlayedCard, setOpponentPlayedCard] = useState();
-
     const [battleInfo, setBattleInfo] = useState({state: INFO_STATUS.LOADING});
     const [opponentInfo, setOpponentInfo] = useState({state: INFO_STATUS.LOADING});
     const [playerInfo, setPlayerInfo] = useState({state: INFO_STATUS.LOADING});
@@ -72,8 +69,8 @@ function DogBattle(props) {
             setOpponentCards({state: INFO_STATUS.READY, cards: opponentCardsList});
 
         });*/
-        setCards({state: INFO_STATUS.READY, cards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 2, name: "Card2", hp: 100, photo: "https://via.placeholder.com/150"}]});
-        setOpponentCards({state: INFO_STATUS.READY, cards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}]});
+        setCards({state: INFO_STATUS.READY, cards: {playerCards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 2, name: "Card2", hp: 100, photo: "https://via.placeholder.com/150"}], playerPlayed: []}});
+        setOpponentCards({state: INFO_STATUS.READY, cards: {playerCards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}], playerPlayed: []}});
 
 
         /*
@@ -98,7 +95,7 @@ function DogBattle(props) {
 
         console.log(event);
 
-        for (let card in cards) {
+        for (let card in cards.playerCards) {
             if (card.id === id) {
                 setActiveCard(card);
                 break;
@@ -125,6 +122,7 @@ function DogBattle(props) {
         }
 
         setCards((prev) => {
+
             const activeItems = prev[activeContainer];
             const overItems = prev[overContainer];
 
@@ -190,7 +188,6 @@ function DogBattle(props) {
         setActiveCard(null);
     }
 
-
     return(
         <DndContext
             announcements={defaultAnnouncements}
@@ -202,12 +199,12 @@ function DogBattle(props) {
             <div className={styles.dogBattle}>
                 <div className={styles.opponentSide}>
                     <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle} />
-                    <CardHand cards={opponentCards} id={"opponentCards"} isContainer={false}/>
+                    <CardHand cards={opponentCards.playerCards} id={"opponentCards"} isContainer={false}/>
                 </div>
 
                 <div className={styles.battleField}>
                     <div className={styles.battleField__user}>
-                        <CardSlot card={playerPlayedCard} id={"playerCardSlot"} isContainer={true}/>
+                        <CardSlot card={cards.playerPlayed} id={"playerCardSlot"} isContainer={true}/>
                         {cards.state === INFO_STATUS.READY ? <Card cardInfo={cards.cards[0]}/>
                             : "ERROR"}                </div>
 
@@ -224,7 +221,7 @@ function DogBattle(props) {
 
                 <div className={styles.userSide}>
                     <PlayerFigthingInfo playerInfo={playerInfo} styles={playerInfoStyle} />
-                    <CardHand cards={cards} isContainer={true}/>
+                    <CardHand cards={cards.playerCards} isContainer={true} id={"playerCards"}/>
                 </div>
             </div>
     </DndContext>);

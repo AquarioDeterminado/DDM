@@ -73,7 +73,7 @@ function GameMap() {
             </div>
             <Map/>
             <div className={styles.cardHand}>
-                <CardHand cards={cards} onClick={handleCardClick} id={"currentHand"}/>
+                <CardHand cards={cards.cards} onClick={handleCardClick} id={"currentHand"}/>
             </div>
         </div>
     );

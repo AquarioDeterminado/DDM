@@ -1,5 +1,3 @@
-const {styles} = require("./GameDashBoard.module.css");
-
 /**
  * Objetivos Estatistica:
  *  - Utilizadores por Zona (Gráfico de barras)
@@ -11,20 +9,26 @@ const {styles} = require("./GameDashBoard.module.css");
  *  - Jogador com menos vitorias (nome e quantidade) (fazer “a mão” Aka js)
  */
 
-function GameDashBoard() {
+function getUsersByZone() {
 
-
-
-
-    return (
-        <>
-            <div className={styles.gr}>
-
-            </div>
-            
-        </>
-    )
 }
 
+function getUsersByTime() {
 
-export default GameDashBoard;
+}
+
+function getUsersByGender() {
+
+}
+
+function getWinningProbability() {
+
+}
+
+function getMostWins() {
+
+}
+
+function getLessWins() {
+
+}
