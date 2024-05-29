@@ -1,6 +1,6 @@
 async function getEvents(callback) {
     const authKey = 0;
-    const request = new Request('http://localhost:3000/events/', {
+    const request = new Request(`${process.env.API_URL}/events/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
