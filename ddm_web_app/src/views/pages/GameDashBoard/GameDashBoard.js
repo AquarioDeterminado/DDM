@@ -1,4 +1,5 @@
-const {styles} = require("./GameDashBoard.module.css");
+import styles from "./GameDashBoard.module.css";
+import {Bar, Pie} from "react-chartjs-2";
 
 /**
  * Objetivos Estatistica:
@@ -16,9 +17,14 @@ function GameDashBoard() {
 
 
 
+
     return (
         <>
-            <div className={styles.gr}>
+            <div className={styles.graphics}>
+
+            </div>
+            <div className={styles.stats}>
+
 
             </div>
             

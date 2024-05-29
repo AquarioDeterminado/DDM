@@ -2,6 +2,7 @@ import {ROUTES} from "../views/MakeRoutes";
 
 function movePlayerTo(coordinates, navigate) {
     //TODO: make movenment
+
     arrived(navigate);
 }
 

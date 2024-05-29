@@ -1,9 +1,11 @@
 async function getEvents(callback) {
-    const request = new Request('/api/events/', {
-        method: 'GET',
+    const authKey = 0;
+    const request = new Request('http://localhost:3000/events/', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({authKey: "authkey"})
     });
 
     var status = 0;

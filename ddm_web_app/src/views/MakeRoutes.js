@@ -26,7 +26,7 @@ const ROUTES  = {
     PLAYERPROFILE: gameBaseRoute  + "/profile",
 	SETTINGSPAGE: gameBaseRoute  + "/profile/settings",
 
-    WEBPROF: "/webprof",
+    WEBPROF: "/ProfWeb.html",
     DASHBOARD: "/dashboard",
 }
 
@@ -44,8 +44,6 @@ function makeRoutes() {
                 <Route path={ROUTES.DECKMANAGER} element={<DeckManager />} />
                 <Route path={ROUTES.PLAYERPROFILE} element={<ProfilePage />} />
                 <Route path={ROUTES.SETTINGSPAGE} element={<SettingsPage />} />
-
-                <Route path={ROUTES.WEBPROF} element={<ProfWeb />} />
 
                 <Route path={ROUTES.DASHBOARD} element={<GameDashBoard />} />
             </Routes>

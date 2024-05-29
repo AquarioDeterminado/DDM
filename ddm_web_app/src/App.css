@@ -40,3 +40,8 @@
 .leaflet-container {
   z-index: 0;
 }
+
+.leaflet-tile-pane {
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
