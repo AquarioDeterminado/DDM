@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="ProfWeb.css">
+    <script type="text/javascript" src="./ProfWeb.js"></script>
     <style>
         body,h1 {font-family: "Raleway", sans-serif; color: #282c34}
         body, html {height: 100%;}
@@ -20,28 +21,32 @@
 
 <div class="bgimg intro">
     <div class="top">
-        Página para o Professor de Web
+        Contributors
     </div>
     <div class="center">
-        <h1 class="title">Olá, Professor de Web</h1>
-        <hr class="border" style="margin:auto;width:40%">
-        <p class="subtitle">Eis uma pagina HTML (não foi feito em React)</p>
+        <h1 class="title">Here's our page's contributors</h1>
+        <hr class="border" style="margin:auto;width:40%"/>
+        <p class="subtitle">Please blame them for this site</p>
 
         <table>
             <tr>
-                <td>Profissão:</td>
-                <td>Professor</td>
+                <td>Name</td>
+                <td>GitHub</td>
             </tr>
             <tr>
-                <td>Cadeira:</td>
-                <td>Web</td>
+                <td>João Coelho</td>
+                <td><a href="https://github.com/AquarioDeterminado">Aquario_Determinado</a></td>
             </tr>
             <tr>
-                <td>Nome:</td>
-                <td>Professor de Web</td>
+                <td>Ricardo Dias</td>
+                <td><a href="https://github.com/Ri787878">Ri717171</a></td>
             </tr>
         </table>
-        <p>WOW um <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">link</a>    !!!!!!</p>
+
+        <button class="button" onclick="getEvents()">List Current Events</button>
+
+        <div id="events"></div>
+
     </div>
     <div class="footer">
         Tchau Tchau!
