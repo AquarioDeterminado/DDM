@@ -1,6 +1,6 @@
 
 const getEvents = async () => {
-    const events = await fetch(`${process.env.REACT_APP_API_URL}/events/`, {
+    const events = await fetch(`api.ddm.pt:3000/events/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
