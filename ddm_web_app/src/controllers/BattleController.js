@@ -1,3 +1,5 @@
+import webReq from "./utils/WebRequest";
+
 function getBattleInfo(callback) {
     const request = new Request('/api/battle', {
         method: 'GET',
@@ -63,4 +65,17 @@ function getPlayersInfo(callback) {
         });
 }
 
-export {getBattleInfo, getCards, getPlayersInfo};
+function getOpponentInfo (playerId, callback) {
+    const request = new Request(process.env.REACT_APP_API_URL + '/cards/getopponentinfo/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({playerId: playerId})
+    });
+
+    webReq.expect(request, callback);
+
+}
+
+export {getBattleInfo, getCards, getPlayersInfo, getOpponentInfo};

@@ -13,7 +13,6 @@ function LogIn() {
 		const password = data.get('password');
 		const rememberMe = data.get('rememberMe');
 
-		console.log(email, password);
 		//TODO: Remove this
 		if (email === "admin" && password === "123") {
 			if (rememberMe)
@@ -32,7 +31,6 @@ function LogIn() {
 					navigate(ROUTES.GAME);
 				} else {
 					alert(response.response.message);
-					console.log(response); //TODO: Log In Error
 				}
 			});
 	}

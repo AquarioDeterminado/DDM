@@ -1,13 +1,16 @@
 import {ROUTES} from "../views/MakeRoutes";
 
-function movePlayerTo(coordinates, navigate) {
+function movePlayerTo(coordinates, playerId, navigate) {
     //TODO: make movenment
 
-    arrived(navigate);
+    arrived(navigate, playerId);
 }
 
-function arrived(navigate) {
-    navigate(ROUTES.DOGBATTLE);
+function arrived(navigate, playerId) {
+    console.log(playerId)
+    navigate(ROUTES.DOGBATTLE, {
+        state: {playerId: playerId}
+    });
 }
 
 export {movePlayerTo, arrived};

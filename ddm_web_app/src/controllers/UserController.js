@@ -114,5 +114,15 @@ export function removeFromCurrentHand(cardId, after) {
     webReq.expect(request, after);
 }
 
+export function getUserInfo(after) {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/users/', {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({authKey: localStorage.getItem("authKey")}),
+    });
+
+    webReq.expect(request, after);
+}
+
 const exports = {logInUserPass, logInAuth, keepAuthKey, isLoggedIn, addCardToCurrentHand, addCardToStock: removeFromCurrentHand, sendSignUpRequest, getStockCards, getCurrentHand};
 export default exports;

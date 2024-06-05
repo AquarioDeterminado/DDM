@@ -10,8 +10,6 @@ function CardRow(props) {
         id
     });
 
-    console.log(cards)
-
     const cardRowHtml = (
         <div ref={setNodeRef} className={styles.cardRow}>
         {cards !== undefined ? cards.map((card) => {

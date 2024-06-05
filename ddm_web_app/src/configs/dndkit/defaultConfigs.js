@@ -10,7 +10,6 @@ export function findContainer(id, items) {
             }
         }
     });
-    console.log(a);
     return a;
 }
 

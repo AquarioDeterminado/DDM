@@ -87,7 +87,6 @@ function Map() {
                             click: (e) => {
                                 setDistance(e.latlng.distanceTo({lat: player.coordinates.latitude, lng: player.coordinates.longitude}));
                                 setActiveEvent(index);
-                                console.log(index);
                             },
                         }}>
                     {
@@ -101,7 +100,7 @@ function Map() {
                             <h2>{event.name}</h2>
                             <p>{event.description}</p>
                             <p>Distance: {distance.toFixed(2)} meters</p>
-                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, navigate)}>Battle</button>
+                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, event.playerId, navigate)}>Battle</button>
                         </div>
                     </Popup>
                 </Marker>
@@ -122,7 +121,6 @@ function GameMap() {
     useEffect(() => {
 
         getCurrentHand((response, status) => {
-            console.log(response);
             if (status === 200) {
                 setCards({state: INFO_STATUS.READY, cards: response.pack});
             } else {

@@ -37,7 +37,6 @@ function DeckManager() {
             else
                 setCards({...cards, state: INFO_STATUS.ERROR})
         }).then(() => {
-            console.log(currentHand)
             getStockCards((response, status) => {
                 if (status === 200) {
                     let litter = response.litter;
@@ -152,7 +151,6 @@ function DeckManager() {
         }
 
         if (activeIndex !== overIndex) {
-            console.log(activeCard.id, overContainer)
             setCards((cards) => ({
                 ...cards,
                 [overContainer]: arrayMove(cards[overContainer], activeIndex, overIndex)
@@ -168,8 +166,6 @@ function DeckManager() {
     function handleDragStart(event) {
         const { active } = event;
         const { id } = active;
-
-        console.log(event);
 
         for (let key in cards) {
             for (let card of cards[key]) {
