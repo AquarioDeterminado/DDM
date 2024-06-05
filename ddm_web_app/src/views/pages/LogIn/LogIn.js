@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../MakeRoutes";
 import { keepAuthKey, logInUserPass } from "../../../controllers/UserController";
+import {ReactComponent as Button1} from "../../assets/Login-Button.svg";
+import {ReactComponent as Title1} from "../../assets/Sign-In-Title.svg";
+
 import styles from "./LogIn.module.css";
 
 function LogIn() {
@@ -36,8 +39,24 @@ function LogIn() {
 			});
 	}
 
+	function LoginButton() {
+		const navigate = useNavigate();
+
+		function startGame() {
+			navigate(ROUTES.GAME)
+		}
+
+		return (
+			<div className={styles.submitButton} onClick={startGame}>
+				<Button1/>
+
+			</div>
+		);
+	}
+
 	return (
 		<div className={styles.logInPage}>
+			<Title1 className={styles.container} />
 			<form className={styles.logInForm} onSubmit={onSubmit}>
 				<label className={styles.logInForm} id={styles["usernameInputBox"]}>
 					<input type="text" placeholder={"Username"} name="username" />
@@ -49,7 +68,7 @@ function LogIn() {
 					Remember Me
 					<input type="checkbox" name="rememberMe" />
 				</label>
-				<button className={styles.logInForm} id={styles["submitButton"]}>Submit</button>
+				<LoginButton />
 				<label className={styles.logInForm} id={styles["signUpButton"]}>
 					<a href={ROUTES.SIGNUP} >Sign Up</a>
 				</label>
