@@ -1,5 +1,5 @@
 import styles from './LandingPage.module.css';
-import {ReactComponent as Card1} from "../../assets/Card1.svg";
+import {ReactComponent as Card1} from "../../assets/Landing-Page-Hand-Deck.svg";
 import {ROUTES} from "../../MakeRoutes";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
