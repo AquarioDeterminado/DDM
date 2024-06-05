@@ -203,7 +203,7 @@ function DogBattle(props) {
                     </div>
 
                     <div className={styles.battleField__opponent}>
-                        <CardSlot card={opponentCards.cards.playerPlayed} id={"playerPlayed"} isContainer={false}/>
+                        <CardSlot card={undefined} id={"playerPlayed"} isContainer={false}/>
                     </div>
                 </div>
 

@@ -30,6 +30,8 @@ export async function isLoggedIn() {
 
     if (localStorage.getItem("authKey") !== null && localStorage.getItem("authKey") !== undefined ) {
         return true;
+    } else {
+        return false;
     }
 
     await logInAuth(localStorage.getItem("authKey"), (res) => {
