@@ -27,8 +27,8 @@ function DogBattle(props) {
     );
     const [activeCard, setActiveCard] = useState();
 
-    const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
-    const [opponentCards, setOpponentCards] = useState({state: INFO_STATUS.LOADING});
+    const [cards, setCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
+    const [opponentCards, setOpponentCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
 
     const [battleInfo, setBattleInfo] = useState({state: INFO_STATUS.LOADING});
     const [opponentInfo, setOpponentInfo] = useState({state: INFO_STATUS.LOADING});
@@ -95,7 +95,7 @@ function DogBattle(props) {
 
         console.log(event);
 
-        for (let card in cards.playerCards) {
+        for (let card in cards.cards.playerCards) {
             if (card.id === id) {
                 setActiveCard(card);
                 break;
@@ -109,22 +109,22 @@ function DogBattle(props) {
         const { id: overId } = over;
 
         // Find the containers
-        const activeContainer = findContainer(id, cards);
-        const overContainer = findContainer(overId, cards);
+        const activeContainer = findContainer(id, cards.cards);
+        const overContainer = findContainer(overId, cards.cards);
 
         if (
             !activeContainer ||
             !overContainer ||
             activeContainer === overContainer ||
-            overContainer === "playerCardSlot" && cards[overContainer].length >= 1
+            overContainer === "playerCardSlot" && cards.cards[overContainer].length >= 1
         ) {
             return;
         }
 
         setCards((prev) => {
 
-            const activeItems = prev[activeContainer];
-            const overItems = prev[overContainer];
+            const activeItems = prev.cards[activeContainer];
+            const overItems = prev.cards[overContainer];
 
             // Find the indexes for the items
             const activeIndex = activeItems.indexOf(id);
@@ -146,14 +146,14 @@ function DogBattle(props) {
             }
 
             return {
-                ...prev,
+                ...prev.cards,
                 [activeContainer]: [
-                    ...prev[activeContainer].filter((item) => item.id !== active.id)
+                    ...prev.cards[activeContainer].filter((item) => item.id !== active.id)
                 ],
                 [overContainer]: [
-                    ...prev[overContainer].slice(0, newIndex),
+                    ...prev.cards[overContainer].slice(0, newIndex),
                     activeCard,
-                    ...prev[overContainer].slice(newIndex, prev[overContainer].length)
+                    ...prev.cards[overContainer].slice(newIndex, prev.cards[overContainer].length)
                 ]
             };
         });
@@ -164,8 +164,8 @@ function DogBattle(props) {
         const { id } = active;
         const { id: overId } = over;
 
-        const activeContainer = findContainer(id, cards);
-        const overContainer = findContainer(overId, cards);
+        const activeContainer = findContainer(id, cards.cards);
+        const overContainer = findContainer(overId, cards.cards);
 
         if (
             !activeContainer ||
@@ -175,18 +175,22 @@ function DogBattle(props) {
             return;
         }
 
-        const activeIndex = cards[activeContainer].indexOf(active.id);
-        const overIndex = cards[overContainer].indexOf(overId);
+        const activeIndex = cards.cards[activeContainer].indexOf(active.id);
+        const overIndex = cards.cards[overContainer].indexOf(overId);
 
         if (activeIndex !== overIndex) {
             setCards((cards) => ({
-                ...cards,
-                [overContainer]: arrayMove(cards[overContainer], activeIndex, overIndex)
+                ...cards.cards,
+                [overContainer]: arrayMove(cards.cards[overContainer], activeIndex, overIndex)
             }));
         }
 
         setActiveCard(null);
     }
+
+    console.log(cards.cards.playerCards);
+    console.log(opponentCards.cards.playerCards);
+
 
     return(
         <DndContext
@@ -199,29 +203,31 @@ function DogBattle(props) {
             <div className={styles.dogBattle}>
                 <div className={styles.opponentSide}>
                     <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle} />
-                    <CardHand cards={opponentCards.playerCards} id={"opponentCards"} isContainer={false}/>
+                    {opponentCards.state === INFO_STATUS.READY ?
+                        <CardHand cards={opponentCards.cards.playerCards} id={"opponentCards"} isContainer={false}/>
+                        : "Loading..."}
                 </div>
 
                 <div className={styles.battleField}>
                     <div className={styles.battleField__user}>
-                        <CardSlot card={cards.playerPlayed} id={"playerCardSlot"} isContainer={true}/>
-                        {cards.state === INFO_STATUS.READY ? <Card cardInfo={cards.cards[0]}/>
-                            : "ERROR"}                </div>
+                        <CardSlot card={cards.cards.playerPlayed} id={"playerPlayed"} isContainer={true}/>
+                    </div>
 
                     <div className={styles.battleField__battleState}>
                         Waiting for User
                     </div>
 
                     <div className={styles.battleField__opponent}>
-                        {opponentCards.state === INFO_STATUS.READY ? <Card cardInfo={opponentCards.cards[0]}/>
-                            : "ERROR"}
+                        <CardSlot card={opponentCards.cards.playerPlayed} id={"playerPlayed"} isContainer={false}/>
                     </div>
                 </div>
 
 
                 <div className={styles.userSide}>
                     <PlayerFigthingInfo playerInfo={playerInfo} styles={playerInfoStyle} />
-                    <CardHand cards={cards.playerCards} isContainer={true} id={"playerCards"}/>
+                {cards.state === INFO_STATUS.READY ?
+                    <CardHand cards={cards.cards.playerCards} isContainer={true} id={"playerCards"}/>
+                    : "Loading..."}
                 </div>
             </div>
     </DndContext>);

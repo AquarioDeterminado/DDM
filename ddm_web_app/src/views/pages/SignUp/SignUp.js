@@ -25,11 +25,11 @@ function SignUp() {
 		} else if (newUser.password !== newUser.confirmPassword) {
 			alert("Passwords do not match");
 		} else {
-			sendSignUpRequest(newUser, (res, status) => {
+			sendSignUpRequest({nickname: newUser.username, email: newUser.email, password: newUser.password}, (res, status) => {
 				if (status === 200) {
 					navigate(ROUTES.LOGIN, { logInMessage: "Sign Up Successful! Please Verify Email." });
 				} else if (status === 400) {
-					alert("User already exists");
+					alert(res.message);
 				} else {
 					alert("Error signing up");
 				}

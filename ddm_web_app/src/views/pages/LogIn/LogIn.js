@@ -9,28 +9,29 @@ function LogIn() {
 	function onSubmit(event) {
 		event.preventDefault();
 		const data = new FormData(event.target);
-		const username = data.get('username');
+		const email = data.get('email');
 		const password = data.get('password');
 		const rememberMe = data.get('rememberMe');
 
-		console.log(username, password);
+		console.log(email, password);
 		//TODO: Remove this
-		if (username === "admin" && password === "123") {
+		if (email === "admin" && password === "123") {
 			if (rememberMe)
 				keepAuthKey("override");
 			navigate(ROUTES.GAME);
 			return;
 		}
 
-		logInUserPass(username, password,
+		logInUserPass(email, password,
 			(response) => {
 				if (response.status === 200) {
 					if (rememberMe) {
-						keepAuthKey(response.data.authKey);
+						keepAuthKey(response.response.authKey);
 					}
 
 					navigate(ROUTES.GAME);
 				} else {
+					alert(response.response.message);
 					console.log(response); //TODO: Log In Error
 				}
 			});
@@ -40,7 +41,7 @@ function LogIn() {
 		<div className={styles.logInPage}>
 			<form className={styles.logInForm} onSubmit={onSubmit}>
 				<label className={styles.logInForm} id={styles["usernameInputBox"]}>
-					<input type="text" placeholder={"Username"} name="username" />
+					<input type="text" placeholder={"Email"} name="email" />
 				</label>
 				<label className={styles.logInForm} id={styles["passwordInputBox"]}>
 					<input type="password" placeholder={"Password"} name="password" />

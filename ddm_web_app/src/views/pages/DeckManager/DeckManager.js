@@ -14,6 +14,8 @@ import {
     useSensors
 } from "@dnd-kit/core";
 import {findContainer} from "../../../configs/dndkit/defaultConfigs";
+import card from "../../components/Card/Card";
+import {addCardToCurrentHand, removeFromCurrentHand, getCurrentHand, getStockCards} from "../../../controllers/UserController";
 
 function DeckManager() {
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
@@ -28,23 +30,30 @@ function DeckManager() {
 
 
     useEffect(() => {
-        /*getStockCards((response, status) => {
+        let currentHand;
+        getCurrentHand((response, status) => {
             if (status === 200)
-                setallCardsButHand({data: response, state: INFO_STATUS.READY});
+                currentHand = response.pack;
             else
-                setallCardsButHand({state: INFO_STATUS.ERROR});
-        });*/
+                setCards({...cards, state: INFO_STATUS.ERROR})
+        }).then(() => {
+            console.log(currentHand)
+            getStockCards((response, status) => {
+                if (status === 200) {
+                    let litter = response.litter;
 
+                    for (let i = 0; i < litter.length; i++) {
+                        for (let j = 0; j < currentHand.length; j++) {
+                            if (litter[i].id === currentHand[j].id) {
+                                litter.splice(i, 1);
+                            }
+                        }
+                    }
 
-        /*getCurrentHand((response, status) => {
-            if (status === 200)
-                setCurrentHand({data: response, state: INFO_STATUS.READY});
-            else
-                setCurrentHand({state: INFO_STATUS.ERROR});
-        });*/
-        setCards({state: INFO_STATUS.READY,
-                        currentHand: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 2, name: "Card2", hp: 100, photo: "https://via.placeholder.com/150"}],
-                        stock: [{id: 3, name: "Card3", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 4, name: "Card4", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 5, name: "Card4", hp: 80, photo: "https://via.placeholder.com/150"}, {id: 6, name: "Card5", hp: 120, photo: "https://via.placeholder.com/150"}]
+                    setCards({currentHand: currentHand, stock: litter, state: INFO_STATUS.READY});
+                } else
+                    setCards({...cards, state: INFO_STATUS.ERROR})
+            });
         });
     }, []);
 
@@ -124,11 +133,33 @@ function DeckManager() {
         const activeIndex = cards[activeContainer].indexOf(active.id);
         const overIndex = cards[overContainer].indexOf(overId);
 
+        if (overContainer === "stock") {
+            removeFromCurrentHand(activeCard.id, (response, status) => {
+                if (status === 200) {
+                    console.log("Card removed from hand");
+                } else {
+                    console.error("Failed to remove card from hand");
+                }
+            });
+        } else {
+            addCardToCurrentHand(activeCard.id, (response, status) => {
+                if (status === 200) {
+                    console.log("Card added to current hand");
+                } else {
+                    console.error("Failed to add card to current hand");
+                }
+            });
+        }
+
         if (activeIndex !== overIndex) {
+            console.log(activeCard.id, overContainer)
             setCards((cards) => ({
                 ...cards,
                 [overContainer]: arrayMove(cards[overContainer], activeIndex, overIndex)
             }));
+
+
+
         }
 
         setActiveCard(null);

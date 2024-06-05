@@ -1,7 +1,7 @@
 import webReq, {DDM_API_URL} from "./utils/WebRequest";
 
 function logInAuth(authKey, after)  {
-    const request =  new Request(DDM_API_URL + '/users/login/auth', {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/authkey', {
         method: 'POST',
         headers: new Headers({ 'Content-Type': 'application/json' }),
         body: JSON.stringify({authKey: authKey}),
@@ -10,11 +10,11 @@ function logInAuth(authKey, after)  {
     webReq.expect(request, after);
 }
 
-export async function logInUserPass(username, password, after)  {
-    const request =  new Request(DDM_API_URL + '/users/login/', {
+export async function logInUserPass(email, password, after)  {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/users/auth', {
         method: 'POST',
         headers: new Headers({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({username: username, password: password})
+        body: JSON.stringify({email: email, password: password})
     });
 
     await webReq.expect(request, after);
@@ -26,43 +26,93 @@ export function keepAuthKey(authKey) {
 
 export async function isLoggedIn() {
     //TODO: Remove this
-    if (localStorage.getItem("authKey") === "override") {
+    let loggedIn;
+
+    if (localStorage.getItem("authKey") !== null && localStorage.getItem("authKey") !== undefined ) {
         return true;
     }
 
-    logInAuth(localStorage.getItem("authKey"), (res) => {
-        return res.status === 200;
+    await logInAuth(localStorage.getItem("authKey"), (res) => {
+        loggedIn = res.status === 200;
     });
+
+    return loggedIn;
 }
 
 export async function sendSignUpRequest(newUser, after) {
-    const request =  new Request(DDM_API_URL + '/users/signup/', {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/users/create/', {
         method: 'POST',
-        headers: new Headers({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify(newUser)
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({userInfo: newUser}),
     });
 
-    await webReq.expect(request, after);
+    var status = 0;
+    fetch(request)
+        .then((res) => {
+            status = res.status;
+            return res.json()
+        })
+        .then((data) => {
+            after(data, status);
+        });
 }
 
 export async function getStockCards(after) {
-    const request =  new Request(DDM_API_URL + '/cards/stock', {
-        method: 'GET',
-        headers: new Headers({ 'Content-Type': 'application/json' })
+    const request =  new Request(process.env.REACT_APP_API_URL + `/cards/litter/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({authKey: localStorage.getItem("authKey")}),
     });
 
-    await webReq.expect(request, after);
+    var status = 0;
+    fetch(request)
+        .then((res) => {
+            status = res.status;
+            return res.json()
+        })
+        .then((data) => {
+            after(data, status);
+        });
 }
 
 export async function getCurrentHand(after) {
-    const request =  new Request(DDM_API_URL + '/cards/hand', {
-        method: 'GET',
-        headers: new Headers({ 'Content-Type': 'application/json' })
+    const request =  new Request(process.env.REACT_APP_API_URL + '/cards/currentpack/', {
+        method: 'Post',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({authKey: localStorage.getItem("authKey")}),
     });
 
-    await webReq.expect(request, after);
+    var status = 0;
+    fetch(request)
+        .then((res) => {
+            status = res.status;
+            return res.json()
+        })
+        .then((data) => {
+            after(data, status);
+        });
 
 }
 
-const exports = {logInUserPass, logInAuth, keepAuthKey, isLoggedIn};
+export function addCardToCurrentHand(cardId, after) {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/cards/currentpack/add/', {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({authKey: localStorage.getItem("authKey"), cardId: cardId}),
+    });
+
+    webReq.expect(request, after);
+}
+
+export function removeFromCurrentHand(cardId, after) {
+    const request =  new Request(process.env.REACT_APP_API_URL + '/cards/currentpack/remove/', {
+        method: 'POST',
+        headers: new Headers({ 'Content-Type': 'application/json' }),
+        body: JSON.stringify({authKey: localStorage.getItem("authKey"), cardId: cardId}),
+    });
+
+    webReq.expect(request, after);
+}
+
+const exports = {logInUserPass, logInAuth, keepAuthKey, isLoggedIn, addCardToCurrentHand, addCardToStock: removeFromCurrentHand, sendSignUpRequest, getStockCards, getCurrentHand};
 export default exports;

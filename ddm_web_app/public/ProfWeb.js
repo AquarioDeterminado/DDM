@@ -1,6 +1,6 @@
 
 const getEvents = async () => {
-    const events = await fetch(`https://api.dogdm.pt:3000/events/`, {
+    const events = await fetch(`http://localhost:3000/events/`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

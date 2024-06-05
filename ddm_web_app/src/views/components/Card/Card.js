@@ -37,6 +37,7 @@ function Card(props) {
                 <div className={styles.card__info}>
                     <h2>{cardInfo.name}</h2>
                     <p>{cardInfo.hp + " hp"}</p>
+                    <p>{cardInfo.attack + " attq"}</p>
                 </div>
             </div>
         );

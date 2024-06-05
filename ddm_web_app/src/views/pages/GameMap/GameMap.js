@@ -9,6 +9,7 @@ import INFO_STATUS from "../../../controllers/utils/InfoStatus";
 import {movePlayerTo} from "../../../controllers/MovementController";
 import {getEvents} from "../../../controllers/MapController";
 import L from "leaflet";
+import {getCurrentHand} from "../../../controllers/UserController";
 
 function DistanceLine ({positions, distance, shown}) {
     const map = useMap();
@@ -60,7 +61,6 @@ function Map() {
 
         getEvents((res, status) => {
             if (status === 200) {
-                console.log(res.events);
                 setEvents({events: res.events, state: INFO_STATUS.READY});
             } else {
                 setEvents({state: INFO_STATUS.ERROR})
@@ -120,7 +120,16 @@ function GameMap() {
     }
 
     useEffect(() => {
-        setCards({state: INFO_STATUS.READY, cards: [{id: 1, name: "Card1", hp: 100, photo: "https://via.placeholder.com/150"}, {id: 2, name: "Card2", hp: 100, photo: "https://via.placeholder.com/150"}]})
+
+        getCurrentHand((response, status) => {
+            console.log(response);
+            if (status === 200) {
+                setCards({state: INFO_STATUS.READY, cards: response.pack});
+            } else {
+                setCards({state: INFO_STATUS.ERROR});
+            }
+        });
+
     }, []);
 
     return (
