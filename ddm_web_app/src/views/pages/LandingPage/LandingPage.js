@@ -1,5 +1,7 @@
 import styles from './LandingPage.module.css';
 import {ReactComponent as Card1} from "../../assets/Landing-Page-Hand-Deck.svg";
+import {ReactComponent as Button1} from "../../assets/Start-Game-Button.svg";
+import {ReactComponent as Title1} from "../../assets/Title-ddm.svg";
 import {ROUTES} from "../../MakeRoutes";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
@@ -10,7 +12,6 @@ function DogCardHand() {
             <Card1/>
         </div>
     );
-
 }
 
 function StartButton() {
@@ -22,7 +23,8 @@ function StartButton() {
 
     return (
         <div className={styles.startButton} onClick={startGame}>
-            <button className={styles.startButton}>Start</button>
+            <Button1/>
+
         </div>
     );
 }
@@ -34,9 +36,9 @@ function FrontCover() {
     };
     return(
         <div className={styles.frontCover}>
-            <h1 className={styles.frontCover}>ddm</h1>
-            <StartButton />
             <DogCardHand />
+            <Title1 className={styles.title}/>
+            <StartButton />
         </div>
     )
 }
