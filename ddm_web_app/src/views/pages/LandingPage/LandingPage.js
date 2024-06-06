@@ -36,8 +36,8 @@ function FrontCover() {
     };
     return(
         <div className={styles.frontCover}>
-            <DogCardHand />
             <Title1 className={styles.title}/>
+            <DogCardHand />
             <StartButton />
         </div>
     )
