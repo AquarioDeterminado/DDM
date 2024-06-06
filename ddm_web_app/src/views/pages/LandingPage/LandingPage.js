@@ -1,7 +1,7 @@
 import styles from './LandingPage.module.css';
 import {ReactComponent as Card1} from "../../assets/Landing-Page-Hand-Deck.svg";
 import {ReactComponent as Button1} from "../../assets/Start-Game-Button.svg";
-import {ReactComponent as Title1} from "../../assets/Title-ddm.svg";
+import {ReactComponent as Title1} from "../../assets/ddm-pink.svg";
 import {ROUTES} from "../../MakeRoutes";
 import {useNavigate} from "react-router-dom";
 import {useTranslation} from "react-i18next";
