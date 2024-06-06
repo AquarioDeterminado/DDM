@@ -8,23 +8,40 @@
 	height: 100vh;
 	width: 100vw;
 }
+.background{
+	z-index: -2;
+	position: relative;
+	background-color: #EFEFEF;
+}
+svg{
+	width: 50%;
+	height: auto;
+}
+.centeredBackground {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 25%;
+	height: auto;
+	z-index: -1;
+}
 
 
 .profileBox {
 	display: flex;
-	border: solid 3px;
 	padding: 1%;
+	width: 19%;
 
 	justify-content: center;
-	width: 40%;
-
-	background-color: rgb(211, 211, 211);
 }
-
+h1 {
+	color: #5D3819;
+}
 .statsBox {
 	padding: 1%;
 	border-radius: 25px;
-	background-color: grey;
+	background-color: #E7BCC8;
 }
 
 .statTable {
@@ -41,22 +58,11 @@
 }
 
 
-.profileName {
-	align-self: center;
-}
+
 
 .profileInfo {
 	display: flex;
 	flex-direction: column;
+	width: 118%;
 
-}
-
-
-.profileImage {
-
-	margin-top: 0;
-	margin-left: 0;
-	width: 20%;
-	height: 20%;
-	margin-right: 5%;
 }
