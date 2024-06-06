@@ -4,7 +4,6 @@ import { ReactComponent as Background1 } from "../../assets/Player-Profile-Backg
 import { ReactComponent as Button1 } from "../../assets/settings-button.svg";
 import {useNavigate} from "react-router-dom";
 import {ROUTES} from "../../MakeRoutes";
-import settingsButton from "../../components/SettingsButton/SettingsButton";
 
 
 function SettingsButton() {
@@ -15,51 +14,48 @@ function SettingsButton() {
 	}
 
 	return (
-		<div className={styles.startButton} onClick={settingsButton}>
+		<div className={styles.settingsButton} onClick={settingsButton}>
 			<Button1/>
 
 		</div>
 	);
 }
 
+function InfoBox() {
+
+	return (
+		<div className={styles.infoBox}>
+			<h1>Puddle_04</h1>
+			<p>
+				Email: teste@gmail.com
+				<br/>
+				Location: Santos
+			</p>
+			<div className={styles.statsBox}>
+				<p>
+					Stats:
+					<div className={styles.statTable}>
+						Matches Played: 105
+						<br/>
+						Matches Won: 73
+						<br/>
+						Favourite Dog: Oscar
+						<br/>
+						Worst Enemy: Mauricio_04
+					</div>
+				</p>
+			</div>
+		</div>
+	);
+}
 
 function Profile() {
 	return (
-		<div className={styles.background}>
-			<Background1 className={styles.centeredBackground} />
-			<div className={styles.profilePage}>
-				<div className={styles.profileBox}>
-					<div className={styles.profileInfo}>
-						<div className={styles.settingsButton}>
-							<SettingsButton />
-						</div>
-						<div className={styles.content}>
-							<h1>Puddle_04</h1>
-							<p>
-								Email: teste@gmail.com
-								<br/>
-								Location: Santos
-							</p>
+		<div className={styles.profilePage}>
+			<SettingsButton />
+			<Background1 className={styles.background}/>
+			<InfoBox />
 
-							<div className={styles.statsBox}>
-								<p>
-									Stats:
-									<div className={styles.statTable}>
-										Matches Played: 105
-										<br/>
-										Matches Won: 73
-										<br/>
-										Favourite Dog: Oscar
-										<br/>
-										Worst Enemy: Mauricio_04
-									</div>
-								</p>
-							</div>
-						</div>
-					</div>
-
-				</div>
-			</div>
 		</div>
 	);
 }
