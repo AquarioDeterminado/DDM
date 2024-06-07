@@ -2,6 +2,8 @@ import styles from "./SignUp.module.css";
 import { ROUTES } from "../../MakeRoutes";
 import { useNavigate } from "react-router-dom";
 import { sendSignUpRequest } from "../../../controllers/UserController";
+import {ReactComponent as Title1} from "../../assets/Sign-Up-Title.svg";
+import {ReactComponent as Button1} from "../../assets/Sign Up Button.svg";
 
 function SignUp() {
 
@@ -37,9 +39,25 @@ function SignUp() {
 		}
 	}
 
+	function SignUpButton() {
+		const navigate = useNavigate();
+
+		function startGame() {
+			navigate(ROUTES.GAME)
+		}
+
+		return (
+			<div className={styles.signUpButton} onClick={startGame}>
+				<Button1/>
+
+			</div>
+		);
+	}
+
+
 	return (
 		<div className={styles.signUp}>
-			<h1>Sign Up</h1>
+			<Title1/>
 			<form ClassName={styles.SignUpForm} onSubmit={onSubmit}>
 				<label className={styles.SignUpForm} id={styles["usernameInputBox"]}>
 					<input type="text" id="username" name="username" placeholder="Username" />
@@ -52,8 +70,8 @@ function SignUp() {
 				</label>
 				<label className={styles.SignUpForm} id={styles["usernameInputBox"]}>
 					<input type="password" id="confirmPassword" name="confirmPassword" placeholder="Password" />
+					<SignUpButton/>
 				</label>
-				<button className={styles.SignUpForm} id={styles["signUpButton"]}>Sign Up</button>
 			</form>
 		</div>
 	)

@@ -1,62 +1,67 @@
 .profilePage {
+	z-index: 2;
 	display: flex;
 	align-items: center;
-	align-content: center;
-	align-self: center;
 	justify-content: center;
-
+	flex-direction: column;
 	height: 100vh;
 	width: 100vw;
+	background-color: #EFEFEF;
+	position: relative;
+}
+
+.settingsButton {
+	z-index: 2; /* Ensure settings button is on top */
+	position: absolute;
+	top: 20px;
+	right: 0;
 }
 
 
-.profileBox {
+.background {
+	position: absolute;
 	display: flex;
-	border: solid 3px;
-	padding: 1%;
+	width: 25%;
+	height: auto;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: -1;
+	max-width: 150%;
+	max-height: 150%;
+}
 
+
+.infoBox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	justify-content: center;
-	width: 40%;
-
-	background-color: rgb(211, 211, 211);
+	width: 100vw;
+	height: 100vh	;
+	border-radius: 10px;
+	padding: 2rem;
+	position: relative;
+	position: relative;
+	margin-top: 12vh;
 }
 
 .statsBox {
 	padding: 1%;
 	border-radius: 25px;
-	background-color: grey;
+	background-color: #E7BCC8;
+
 }
 
 .statTable {
 	margin-left: 6%;
 }
 
-.settingsButton {
-	margin-top: 0;
-	margin-left: 0;
-	padding: 5px;
-	border-radius: 10px;
 
-
+svg {
+	width: 5%;
+	height: auto;
 }
-
-
-.profileName {
-	align-self: center;
-}
-
-.profileInfo {
-	display: flex;
-	flex-direction: column;
-
-}
-
-
-.profileImage {
-
-	margin-top: 0;
-	margin-left: 0;
-	width: 20%;
-	height: 20%;
-	margin-right: 5%;
+h1 {
+	color: #5D3819;
 }
