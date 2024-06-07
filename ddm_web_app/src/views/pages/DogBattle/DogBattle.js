@@ -130,7 +130,6 @@ function DogBattle(props) {
         if (lastJsonMessage.message === "You Lost") {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "You Lost"});
             setTimeout(() => {
-                const navigate = useNavigate();
                 navigate(ROUTES.GAMEMAP);
             }, 5 * 1000);
         }
@@ -138,7 +137,6 @@ function DogBattle(props) {
         if (lastJsonMessage.message === "Draw") {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Draw"});
             setTimeout(() => {
-                const navigate = useNavigate();
                 navigate(ROUTES.GAMEMAP);
             }, 5 * 1000);
         }

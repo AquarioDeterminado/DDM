@@ -22,9 +22,8 @@ function StartButton() {
     }
 
     return (
-        <div className={styles.startButton} onClick={startGame}>
-            <Button1/>
-
+        <div className={styles.startButton} onClick={startGame} >
+            Start
         </div>
     );
 }
