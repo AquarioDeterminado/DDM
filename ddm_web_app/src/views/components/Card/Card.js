@@ -1,6 +1,24 @@
 import styles from './Card.module.css';
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from  "@dnd-kit/utilities";
+import {useState} from "react";
+
+export function SelectableCard(props) {
+    const {cardInfo, selected, setSelected, play} = props;
+
+    const handleClick = () => {
+        console.log("Card clicked");
+        play(cardInfo.id);
+    }
+
+
+
+    return (
+        <div onClick={handleClick}>
+            <Card cardInfo={cardInfo}/>
+        </div>
+    )
+}
 
 export function SortableCard(props) {
     const {

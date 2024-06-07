@@ -58,6 +58,8 @@ function DeckManager() {
 
     function handleDragOver(event) {
         const { active, over, draggingRect } = event;
+        console.log(draggingRect)
+
         const { id } = active;
         const { id: overId } = over;
 
@@ -87,6 +89,7 @@ function DeckManager() {
                 // We're at the root droppable of a container
                 newIndex = overItems.length + 1;
             } else {
+                console.log(draggingRect)
                 const isBelowLastItem =
                     over &&
                     overIndex === overItems.length - 1 &&

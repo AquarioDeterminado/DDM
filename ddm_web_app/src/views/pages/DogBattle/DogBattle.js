@@ -2,7 +2,7 @@ import styles from './DogBattle.module.css';
 import {useEffect, useState} from "react";
 import Card from "../../components/Card/Card";
 import INFO_STATUS from "../../../controllers/utils/InfoStatus";
-import CardHand from "../../components/CardHand/CardHand";
+import CardHand, {PlayerHand} from "../../components/CardHand/CardHand";
 import PlayerFigthingInfo from "../../components/PlayerFigthingInfo/PlayerFigthingInfo";
 import {
     closestCorners,
@@ -17,15 +17,19 @@ import {arrayMove, sortableKeyboardCoordinates} from "@dnd-kit/sortable";
 import {findContainer} from "../../../configs/dndkit/defaultConfigs";
 import CardSlot from "../../components/CardSlot/CardSlot";
 import {getCurrentHand, getUserInfo} from "../../../controllers/UserController";
-import {getOpponentInfo} from "../../../controllers/BattleController";
-import {useLocation} from "react-router-dom";
+import {getOpponentInfo, startGameConnection} from "../../../controllers/BattleController";
+import {useLocation, useNavigate} from "react-router-dom";
+import {ROUTES} from "../../MakeRoutes";
+import useWebSocket, {ReadyState} from "react-use-websocket";
+import CardRow from "../../components/CardRow/CardRow";
+
 
 function DogBattle(props) {
 
     const {state} = useLocation();
-    const {playerId} = state;
-
-    console.log(playerId)
+    const {eventId, playerId} = state;
+    const navigate = useNavigate();
+    let gameId;
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -34,6 +38,7 @@ function DogBattle(props) {
         })
     );
     const [activeCard, setActiveCard] = useState();
+    const [round, setRound] = useState(1);
 
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
     const [opponentCards, setOpponentCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
@@ -41,7 +46,6 @@ function DogBattle(props) {
     const [battleInfo, setBattleInfo] = useState({state: INFO_STATUS.LOADING});
     const [opponentInfo, setOpponentInfo] = useState({state: INFO_STATUS.LOADING});
     const [playerInfo, setPlayerInfo] = useState({state: INFO_STATUS.LOADING});
-    const [update, setUpdate] = useState(false);
 
     const opponentInfoStyle = {
         playerInfo: styles.opponentInfo,
@@ -52,6 +56,109 @@ function DogBattle(props) {
         playerInfo: styles.playerInfo,
         playerPhoto: styles.playerPhoto,
     };
+
+
+    const WS_URL = `ws://localhost:8000/games/start/`
+    const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
+        WS_URL,
+        {
+            share: false,
+            shouldReconnect: () => true,
+        },
+    );
+
+    // Run when the connection state (readyState) changes
+    useEffect(() => {
+        console.log("Connection state changed")
+        if (readyState === ReadyState.OPEN) {
+            sendJsonMessage(
+                {
+                    "action": "startGame",
+                    "info": {
+                        "authKey": localStorage.getItem("authKey"),
+                        "eventId": eventId
+                    }
+                });
+        } else {
+            console.log("Connection state: " + readyState);
+        }
+    }, [readyState])
+
+    // Run when a new WebSocket message is received (lastJsonMessage)
+    useEffect(() => {
+        if (!lastJsonMessage) return;
+
+        if (lastJsonMessage.status - 200  < 0 && lastJsonMessage.status - 200 <= 100) alert("Error: " + lastJsonMessage.message);
+
+        if (lastJsonMessage.message === "Game started successfully") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Game Started!"});
+            gameId = lastJsonMessage.gameId;
+
+            setTimeout(() => {
+                setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Play!"});
+            }, 2 * 1000);
+        }
+
+
+        if (lastJsonMessage.message === "Play made successfully") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "waiting for opponent to play"});
+        }
+
+        if (lastJsonMessage.message === "Your Turn") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Your Turn"});
+        }
+
+        if (lastJsonMessage.message === "Round finished") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Round finished"});
+            setPlayerInfo({status: INFO_STATUS.READY, player: {...playerInfo.player, hp: lastJsonMessage.player1_hp}});
+            setOpponentInfo({status: INFO_STATUS.READY, player: {...opponentInfo.player, hp: lastJsonMessage.player2_hp}});
+            setRound(round + 1);
+
+            setTimeout(() => {
+                setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Play!"});
+
+            }, 5 * 1000);
+        }
+
+        if (lastJsonMessage.message === "You Won") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "You Won"});
+            setTimeout(() => {
+                navigate(ROUTES.GAMEMAP);
+            }, 5 * 1000);
+        }
+
+        if (lastJsonMessage.message === "You Lost") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "You Lost"});
+            setTimeout(() => {
+                const navigate = useNavigate();
+                navigate(ROUTES.GAMEMAP);
+            }, 5 * 1000);
+        }
+
+        if (lastJsonMessage.message === "Draw") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Draw"});
+            setTimeout(() => {
+                const navigate = useNavigate();
+                navigate(ROUTES.GAMEMAP);
+            }, 5 * 1000);
+        }
+
+
+    }, [lastJsonMessage])
+
+    function play(cardId) {
+        sendJsonMessage(
+            {
+                "action": "play",
+                "info": {
+                    "authKey": localStorage.getItem("authKey"),
+                    "round": round,
+                    "gameId": gameId,
+                    "cardId": cardId
+                }
+            });
+
+    }
 
     useEffect(() => {
 
@@ -105,7 +212,7 @@ function DogBattle(props) {
             !activeContainer ||
             !overContainer ||
             activeContainer === overContainer ||
-            overContainer === "playerCardSlot" && cards.cards[overContainer].length >= 1
+            overContainer === "playerPlayed" && cards.cards[overContainer].length >= 1
         ) {
             return;
         }
@@ -189,21 +296,21 @@ function DogBattle(props) {
                 <div className={styles.opponentSide}>
                     <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle} />
                     {opponentCards.state === INFO_STATUS.READY ?
-                        <CardHand cards={opponentCards.cards.playerCards} id={"opponentCards"} isContainer={false}/>
+                        <PlayerHand play={play} cards={opponentCards.cards.playerCards} id={"opponentCards"} isContainer={false}/>
                         : "Loading..."}
                 </div>
 
                 <div className={styles.battleField}>
                     <div className={styles.battleField__user}>
-                        <CardSlot card={cards.cards.playerPlayed} id={"playerPlayed"} isContainer={true}/>
+                        <CardRow id="playerPlayed" cards={cards.cards.playerPlayed} isContainer={true} />
                     </div>
 
                     <div className={styles.battleField__battleState}>
-                        Waiting for User
+                        {battleInfo.state === INFO_STATUS.READY ? battleInfo.battleInfo : "Loading..."}
                     </div>
 
                     <div className={styles.battleField__opponent}>
-                        <CardSlot card={undefined} id={"playerPlayed"} isContainer={false}/>
+                        <CardSlot card={null} id={"playerPlayed"} isContainer={false}/>
                     </div>
                 </div>
 

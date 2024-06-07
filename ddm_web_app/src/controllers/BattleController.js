@@ -1,4 +1,5 @@
 import webReq from "./utils/WebRequest";
+import useWebSocket from "react-use-websocket";
 
 function getBattleInfo(callback) {
     const request = new Request('/api/battle', {
@@ -75,7 +76,8 @@ function getOpponentInfo (playerId, callback) {
     });
 
     webReq.expect(request, callback);
-
 }
+
+
 
 export {getBattleInfo, getCards, getPlayersInfo, getOpponentInfo};

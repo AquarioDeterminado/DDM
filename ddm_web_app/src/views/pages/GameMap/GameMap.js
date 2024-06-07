@@ -100,7 +100,7 @@ function Map() {
                             <h2>{event.name}</h2>
                             <p>{event.description}</p>
                             <p>Distance: {distance.toFixed(2)} meters</p>
-                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, event.playerId, navigate)}>Battle</button>
+                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, event, navigate)}>Battle</button>
                         </div>
                     </Popup>
                 </Marker>

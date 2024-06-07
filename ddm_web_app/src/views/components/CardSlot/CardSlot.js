@@ -1,5 +1,5 @@
 import {useDroppable} from "@dnd-kit/core";
-import styles from "../CardRow/CardRow.module.css";
+import styles from "./CardSlot.module.css";
 import Card, {SortableCard} from "../Card/Card";
 import {horizontalListSortingStrategy, SortableContext} from "@dnd-kit/sortable";
 
@@ -11,14 +11,9 @@ function CardSlot(props) {
     });
 
     const cardSlotHTML = (
-        <div ref={setNodeRef} className={styles.cardSlot}>
-            {card !== undefined ?  (<SortableCard cardInfo={card} id={card.id} key={card.id} />)
-                :
-            <div hidden={true}>
-                <SortableCard cardInfo={{id: 0, photo: null, name: "Placeholder", hp: 0}}/>
-            </div>
-
-                }
+        <div ref={setNodeRef} >
+            {card !== undefined && card !== null ?  (<SortableCard cardInfo={card} id={card.id} key={card.id} />)
+                : null}
         </div>
     );
     if (card === undefined)
