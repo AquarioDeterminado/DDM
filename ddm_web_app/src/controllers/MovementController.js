@@ -1,9 +1,17 @@
 import {ROUTES} from "../views/MakeRoutes";
 
-function movePlayerTo(coordinates, event, navigate) {
+function movePlayerTo(coordinates, navigate, event) {
     //TODO: make movenment
 
     arrived(navigate, event);
+}
+
+function hostEvent(navigate) {
+    navigate(ROUTES.DOGBATTLE, {
+        state: {
+            isHosting: true,
+        }
+    });
 }
 
 function arrived(navigate, event) {
@@ -11,10 +19,11 @@ function arrived(navigate, event) {
         state: {
             eventId: event.id,
             playerId: event.playerId,
+            isHosting: false,
         }
     });
 }
 
-export {movePlayerTo, arrived};
+export {movePlayerTo, hostEvent};
 
 

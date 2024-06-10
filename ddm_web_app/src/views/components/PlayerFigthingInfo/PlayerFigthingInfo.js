@@ -11,8 +11,8 @@ function PlayerFigthingInfo(props) {
                     </svg>
                 }
             </div>
-            <h1>{playerInfo.status === INFO_STATUS.READY ? playerInfo.player.username : "ERROR"}</h1>
-            <p>{playerInfo.status === INFO_STATUS.READY ? playerInfo.player.hp + " hp" : "ERROR"}</p>
+            <h1>{playerInfo.status === INFO_STATUS.READY ? playerInfo.player.username : "Loading..."}</h1>
+            <p>{playerInfo.status === INFO_STATUS.READY ? playerInfo.player.hp + " hp" : "Loading..."}</p>
         </div>
     )
 }

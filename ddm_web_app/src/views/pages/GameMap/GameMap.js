@@ -6,10 +6,11 @@ import {useEffect, useRef, useState} from "react";
 import {ROUTES} from "../../MakeRoutes";
 import {useNavigate} from "react-router-dom";
 import INFO_STATUS from "../../../controllers/utils/InfoStatus";
-import {movePlayerTo} from "../../../controllers/MovementController";
+import {hostEvent, movePlayerTo} from "../../../controllers/MovementController";
 import {getEvents} from "../../../controllers/MapController";
 import L from "leaflet";
 import {getCurrentHand} from "../../../controllers/UserController";
+import useWebSocket, {ReadyState} from "react-use-websocket";
 
 function DistanceLine ({positions, distance, shown}) {
     const map = useMap();
@@ -43,6 +44,7 @@ const playerIcon = L.icon({
 function Map() {
 
     const navigate = useNavigate();
+
     const [events, setEvents] = useState({state: INFO_STATUS.LOADING});
     const [player, setPlayer] = useState({coordinates: {latitude: 0, longitude: 0},status: INFO_STATUS.LOADING});
 
@@ -100,7 +102,7 @@ function Map() {
                             <h2>{event.name}</h2>
                             <p>{event.description}</p>
                             <p>Distance: {distance.toFixed(2)} meters</p>
-                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, event, navigate)}>Battle</button>
+                            <button onClick={() =>  movePlayerTo({latitude: event.location.coordinates[1], longitude: event.location.coordinates[0]}, navigate, event)}>Battle</button>
                         </div>
                     </Popup>
                 </Marker>
@@ -113,13 +115,43 @@ function GameMap() {
 
     const navigate = useNavigate();
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
+    const [player, setPlayer] = useState({})
+
+    const WS_URL = `ws://localhost:8000/games/start/`
+    const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
+        WS_URL,
+        {
+            share: false,
+            shouldReconnect: () => true,
+        },
+    );
 
     function handleCardClick() {
         navigate(ROUTES.DECKMANAGER);
     }
 
-    useEffect(() => {
+    function startGame() {
+        if (player.coordinates === undefined) {
+            alert("Location not found. Please refresh the page.");
+            return;
+        }
 
+        if (readyState === ReadyState.OPEN) {
+            sendJsonMessage(
+                {
+                    "action": "logPlayer",
+                    "info": {
+                        "authKey": localStorage.getItem("authKey"),
+                        "eventInfo": {
+                            "location": player.coordinates
+                        }
+                    }
+                }
+            );
+        }
+    }
+
+    useEffect(() => {
         getCurrentHand((response, status) => {
             if (status === 200) {
                 setCards({state: INFO_STATUS.READY, cards: response.pack});
@@ -128,7 +160,18 @@ function GameMap() {
             }
         });
 
+        navigator.geolocation.getCurrentPosition((position) => {
+            setPlayer({coordinates: {longitude: position.coords.latitude, latitude: position.coords.longitude}, status: INFO_STATUS.READY})
+        });
     }, []);
+
+    useEffect(() => {
+        if (!lastJsonMessage) return;
+
+        if (lastJsonMessage.message === "Event created successfully")
+            hostEvent(navigate);
+
+    }, [lastJsonMessage]);
 
     return (
         <div className={styles.gameMap}>
@@ -137,6 +180,7 @@ function GameMap() {
             </div>
             <Map/>
             <div className={styles.cardHand}>
+                <button onClick={startGame}>Host Game</button>
                 <CardHand cards={cards.cards} onClick={handleCardClick} id={"currentHand"}/>
             </div>
         </div>

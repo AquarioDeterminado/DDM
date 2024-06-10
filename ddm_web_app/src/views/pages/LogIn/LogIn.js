@@ -39,14 +39,8 @@ function LogIn() {
 	}
 
 	function LoginButton() {
-		const navigate = useNavigate();
-
-		function startGame() {
-			navigate(ROUTES.GAME)
-		}
-
 		return (
-			<div className={styles.submitButton} onClick={startGame}>
+			<div className={styles.submitButton} >
 				<Button1/>
 
 			</div>
@@ -67,7 +61,9 @@ function LogIn() {
 					Remember Me
 					<input type="checkbox" name="rememberMe" />
 				</label>
-				<LoginButton />
+				<button type="submit" >
+					<LoginButton />
+				</button>
 				<label className={styles.logInForm} id={styles["signUpButton"]}>
 					<a href={ROUTES.SIGNUP} >Sign Up</a>
 				</label>

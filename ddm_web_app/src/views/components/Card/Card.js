@@ -6,15 +6,27 @@ import {useState} from "react";
 export function SelectableCard(props) {
     const {cardInfo, selected, setSelected, play} = props;
 
-    const handleClick = () => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    function handleClick(e)  {
         console.log("Card clicked");
         play(cardInfo.id);
+
+        let currentParent= e.target;
+        for (let i = 0; i < e.target.parentElement.children.length; i++) {
+            console.log(currentParent);
+            if (currentParent.id === cardInfo.id) {
+                console.log("Card selected");
+                currentParent.children[0].style.background = "rgba(39,62,84,0.82)";
+            } else {
+                currentParent = currentParent.parentElement;
+            }
+        }
     }
 
 
-
     return (
-        <div onClick={handleClick}>
+        <div id={cardInfo.id} onClick={handleClick} style={selected ? {background: "rgba(39,62,84,0.82)"} : null}>
             <Card cardInfo={cardInfo}/>
         </div>
     )
@@ -54,11 +66,11 @@ function Card(props) {
                          x="0px"
                          y="0px"
                          viewBox="0 0 100 95.152"
-                         enable-background="new 0 0 100 95.152"
+                         enableBackground="new 0 0 100 95.152"
                          className="woof">
                         <path
-                            fill-rule="evenodd"
-                            clip-rule="evenodd"
+                            fillRule="evenodd"
+                            clipRule="evenodd"
                             d="M75.754,91.754c-11.632,1.836-9.73-4.492-9.864-11.711l-0.686-14.15l-2.987,13.671
                                 c-0.545,2.594-1.23,4.972,2.446,6.876c2.59,2.248-0.332,5.448-3.121,5.037c-8.518,0.277-7.284-5.376-6.548-9.385l0.479-5.79
                                 c0.343-3.944,1.093-6.4,1.295-11.913l-1.15-2.988c-9.188-2.381-15.524-4.152-22.664-7.962l-5.114,0.679
@@ -72,8 +84,8 @@ function Card(props) {
                                 l0.134,2.789c-0.065,2.857,1.559,3.06,3.807,3.741C77.526,87.536,78.543,90.394,75.754,91.754L75.754,91.754L75.754,91.754z">
                         </path>
                                         <path
-                                            fill-rule="evenodd"
-                                            clip-rule="evenodd"
+                                            fillRule="evenodd"
+                                            clipRule="evenodd"
                                             d="M83.062,9.073c1.901,1.297,4.286,3.608,6.191,5.646l2.388,2.592
                                 c1.562,1.625,3.94,1.425,6.055,1.834l0.743,0.135c2.312,1.218,1.576,3.673,0.819,5.512l-0.477,1.153
                                 c-2.183,5.247-8.645,5.657-13.208,3.198l-2.035-1.083H82.85l-1.422,0.952l-2.927,2.314c-5.92-2.591-10.751-5.714-14.637-9.866

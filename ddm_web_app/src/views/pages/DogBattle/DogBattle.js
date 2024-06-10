@@ -27,9 +27,18 @@ import CardRow from "../../components/CardRow/CardRow";
 function DogBattle(props) {
 
     const {state} = useLocation();
-    const {eventId, playerId} = state;
+    const {eventId, playerId, isHosting} = state;
+
+    const WS_URL = `ws://localhost:8000/games/start/`
+    const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
+        WS_URL,
+        {
+            share: false,
+            shouldReconnect: () => true,
+        },
+    );
     const navigate = useNavigate();
-    let gameId;
+
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -39,9 +48,13 @@ function DogBattle(props) {
     );
     const [activeCard, setActiveCard] = useState();
     const [round, setRound] = useState(1);
+    const [gameId, setGameId] = useState(null);
 
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
-    const [opponentCards, setOpponentCards] = useState({state: INFO_STATUS.LOADING, cards: {playerCards: [], playerPlayed: []}});
+    const [opponentCards, setOpponentCards] = useState({
+        state: INFO_STATUS.LOADING,
+        cards: {playerCards: [], playerPlayed: []}
+    });
 
     const [battleInfo, setBattleInfo] = useState({state: INFO_STATUS.LOADING});
     const [opponentInfo, setOpponentInfo] = useState({state: INFO_STATUS.LOADING});
@@ -58,27 +71,22 @@ function DogBattle(props) {
     };
 
 
-    const WS_URL = `ws://localhost:8000/games/start/`
-    const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
-        WS_URL,
-        {
-            share: false,
-            shouldReconnect: () => true,
-        },
-    );
-
     // Run when the connection state (readyState) changes
     useEffect(() => {
         console.log("Connection state changed")
         if (readyState === ReadyState.OPEN) {
-            sendJsonMessage(
-                {
-                    "action": "startGame",
-                    "info": {
-                        "authKey": localStorage.getItem("authKey"),
-                        "eventId": eventId
-                    }
-                });
+            if (!isHosting)
+                sendJsonMessage(
+                    {
+                        "action": "startGame",
+                        "info": {
+                            "authKey": localStorage.getItem("authKey"),
+                            "eventId": eventId
+                        }
+                    });
+            else {
+                setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Waiting for opponent..."});
+            }
         } else {
             console.log("Connection state: " + readyState);
         }
@@ -88,11 +96,24 @@ function DogBattle(props) {
     useEffect(() => {
         if (!lastJsonMessage) return;
 
-        if (lastJsonMessage.status - 200  < 0 && lastJsonMessage.status - 200 <= 100) alert("Error: " + lastJsonMessage.message);
+        if (lastJsonMessage.status - 200 < 0 && lastJsonMessage.status - 200 <= 100) alert("Error: " + lastJsonMessage.message);
+
+        console.log(lastJsonMessage);
+        if (lastJsonMessage.message === "Enemy Entered Match") {
+            setBattleInfo({state: INFO_STATUS.READY, battleInfo: lastJsonMessage.player.nickname + "Entered Match"});
+            setGameId(lastJsonMessage.gameId);
+            getOpponentInfo(lastJsonMessage.player.id, (info) => {
+                setOpponentInfo({status: INFO_STATUS.READY, player: info.response.opponentInfo});
+                setOpponentCards({
+                    state: INFO_STATUS.READY,
+                    cards: {playerCards: info.response.currentDeck, playerPlayed: []}
+                });
+            });
+        }
 
         if (lastJsonMessage.message === "Game started successfully") {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Game Started!"});
-            gameId = lastJsonMessage.gameId;
+            setGameId(lastJsonMessage.gameId);
 
             setTimeout(() => {
                 setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Play!"});
@@ -104,6 +125,17 @@ function DogBattle(props) {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "waiting for opponent to play"});
         }
 
+        if (lastJsonMessage.message === "Not your turn") {
+            setBattleInfo((prev) => {
+                    setTimeout(() => {
+                        setBattleInfo({state: INFO_STATUS.READY, battleInfo: "waiting for opponent to play"});
+                    }, 2 * 1000);
+                    return {state: INFO_STATUS.READY, battleInfo: "Not your turn"}
+
+                }
+            );
+        }
+
         if (lastJsonMessage.message === "Your Turn") {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Your Turn"});
         }
@@ -111,7 +143,10 @@ function DogBattle(props) {
         if (lastJsonMessage.message === "Round finished") {
             setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Round finished"});
             setPlayerInfo({status: INFO_STATUS.READY, player: {...playerInfo.player, hp: lastJsonMessage.player1_hp}});
-            setOpponentInfo({status: INFO_STATUS.READY, player: {...opponentInfo.player, hp: lastJsonMessage.player2_hp}});
+            setOpponentInfo({
+                status: INFO_STATUS.READY,
+                player: {...opponentInfo.player, hp: lastJsonMessage.player2_hp}
+            });
             setRound(round + 1);
 
             setTimeout(() => {
@@ -156,6 +191,8 @@ function DogBattle(props) {
                 }
             });
 
+        setBattleInfo({state: INFO_STATUS.READY, battleInfo: "Playing..."})
+
     }
 
     useEffect(() => {
@@ -176,18 +213,20 @@ function DogBattle(props) {
             setPlayerInfo({status: INFO_STATUS.READY, player: info.response.user});
         });
 
-        getOpponentInfo(playerId ,(info) => {
-            setOpponentInfo({status: INFO_STATUS.READY, player: info.response.opponentInfo});
-            setOpponentCards({state: INFO_STATUS.READY, cards: {playerCards: info.response.currentDeck, playerPlayed: []}});
-        });
-
-
-
-    },[]);
+        if (!isHosting) {
+            getOpponentInfo(playerId, (info) => {
+                setOpponentInfo({status: INFO_STATUS.READY, player: info.response.opponentInfo});
+                setOpponentCards({
+                    state: INFO_STATUS.READY,
+                    cards: {playerCards: info.response.currentDeck, playerPlayed: []}
+                });
+            });
+        }
+    }, []);
 
     function handleDragStart(event, setActiveCard) {
-        const { active } = event;
-        const { id } = active;
+        const {active} = event;
+        const {id} = active;
 
         for (let card in cards.cards.playerCards) {
             if (card.id === id) {
@@ -198,9 +237,9 @@ function DogBattle(props) {
     }
 
     function handleDragOver(event) {
-        const { active, over, draggingRect } = event;
-        const { id } = active;
-        const { id: overId } = over;
+        const {active, over, draggingRect} = event;
+        const {id} = active;
+        const {id: overId} = over;
 
         // Find the containers
         const activeContainer = findContainer(id, cards.cards);
@@ -254,9 +293,9 @@ function DogBattle(props) {
     }
 
     function handleDragEnd(event) {
-        const { active, over } = event;
-        const { id } = active;
-        const { id: overId } = over;
+        const {active, over} = event;
+        const {id} = active;
+        const {id: overId} = over;
 
         const activeContainer = findContainer(id, cards.cards);
         const overContainer = findContainer(overId, cards.cards);
@@ -282,7 +321,7 @@ function DogBattle(props) {
         setActiveCard(null);
     }
 
-    return(
+    return (
         <DndContext
             announcements={defaultAnnouncements}
             sensors={sensors}
@@ -292,15 +331,17 @@ function DogBattle(props) {
             onDragEnd={handleDragEnd}>
             <div className={styles.dogBattle}>
                 <div className={styles.opponentSide}>
-                    <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle} />
+                    <PlayerFigthingInfo playerInfo={opponentInfo} styles={opponentInfoStyle}/>
                     {opponentCards.state === INFO_STATUS.READY ?
-                        <PlayerHand play={play} cards={opponentCards.cards.playerCards} id={"opponentCards"} isContainer={false}/>
+                        <CardHand cards={opponentCards.cards.playerCards} id={"opponentCards"} isContainer={false}/>
                         : "Loading..."}
                 </div>
 
                 <div className={styles.battleField}>
                     <div className={styles.battleField__user}>
-                        <CardRow id="playerPlayed" cards={cards.cards.playerPlayed} isContainer={true} />
+                        {cards.state === INFO_STATUS.READY ?
+                            <CardRow id="playerPlayed" cards={cards.cards.playerPlayed} isContainer={true}/>
+                            : null}
                     </div>
 
                     <div className={styles.battleField__battleState}>
@@ -308,19 +349,22 @@ function DogBattle(props) {
                     </div>
 
                     <div className={styles.battleField__opponent}>
-                        <CardSlot card={null} id={"playerPlayed"} isContainer={false}/>
+                        {opponentCards.state === INFO_STATUS.READY ?
+                            <CardSlot card={null} id={"playerPlayed"} isContainer={false}/>
+                            : null}
                     </div>
                 </div>
 
 
                 <div className={styles.userSide}>
-                    <PlayerFigthingInfo playerInfo={playerInfo} styles={playerInfoStyle} />
-                {cards.state === INFO_STATUS.READY ?
-                    <CardHand cards={cards.cards.playerCards} isContainer={true} id={"playerCards"}/>
-                    : "Loading..."}
+                    <PlayerFigthingInfo playerInfo={playerInfo} styles={playerInfoStyle}/>
+
+                    {cards.state === INFO_STATUS.READY ?
+                        <PlayerHand play={play} cards={cards.cards.playerCards} isContainer={true} id={"playerCards"}/>
+                        : "Loading..."}
                 </div>
             </div>
-    </DndContext>);
+        </DndContext>);
 }
 
 export default DogBattle;
