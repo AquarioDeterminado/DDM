@@ -77,11 +77,11 @@ export async function getStockCards(after) {
         });
 }
 
-export async function getCurrentHand(after) {
+export async function getCurrentHand(authKey, after) {
     const request =  new Request(process.env.REACT_APP_API_URL + '/cards/currentpack/', {
         method: 'Post',
         headers: new Headers({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({authKey: localStorage.getItem("authKey")}),
+        body: JSON.stringify({authKey: authKey}),
     });
 
     var status = 0;
@@ -116,11 +116,11 @@ export function removeFromCurrentHand(cardId, after) {
     webReq.expect(request, after);
 }
 
-export function getUserInfo(after) {
+export function getUserInfo(authkey, after) {
     const request =  new Request(process.env.REACT_APP_API_URL + '/users/', {
         method: 'POST',
         headers: new Headers({ 'Content-Type': 'application/json' }),
-        body: JSON.stringify({authKey: localStorage.getItem("authKey")}),
+        body: JSON.stringify({authKey: authkey}),
     });
 
     webReq.expect(request, after);

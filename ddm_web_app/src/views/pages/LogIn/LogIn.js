@@ -25,7 +25,7 @@ function LogIn() {
 		}
 
 		logInUserPass(email, password,
-			(response) => {
+			async (response) => {
 				if (response.status === 200) {
 					if (rememberMe) {
 						keepAuthKey(response.response.authKey);

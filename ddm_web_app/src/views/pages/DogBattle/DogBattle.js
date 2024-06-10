@@ -29,6 +29,8 @@ function DogBattle(props) {
     const {state} = useLocation();
     const {eventId, playerId, isHosting} = state;
 
+    const [authKey, setAuthKey] = useState(localStorage.getItem("authKey"));
+
     const WS_URL = `ws://localhost:8000/games/start/`
     const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
         WS_URL,
@@ -184,7 +186,7 @@ function DogBattle(props) {
             {
                 "action": "play",
                 "info": {
-                    "authKey": localStorage.getItem("authKey"),
+                    "authKey": authKey,
                     "round": round,
                     "gameId": gameId,
                     "cardId": cardId
@@ -204,12 +206,15 @@ function DogBattle(props) {
         });*/
 
 
-        getCurrentHand((response) => {
+        setAuthKey(localStorage.getItem("authKey"));
+
+
+        getCurrentHand(authKey, (response) => {
             setCards({state: INFO_STATUS.READY, cards: {playerCards: response.pack, playerPlayed: []}});
         });
 
 
-        getUserInfo((info) => {
+        getUserInfo(authKey,(info) => {
             setPlayerInfo({status: INFO_STATUS.READY, player: info.response.user});
         });
 

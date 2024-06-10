@@ -58,7 +58,7 @@ function Map() {
     useEffect(() => {
 
         navigator.geolocation.getCurrentPosition((position) => {
-            setPlayer({coordinates: {latitude: position.coords.latitude, longitude: position.coords.longitude}, status: INFO_STATUS.READY})
+            setPlayer({coordinates: {latitude: position.coords.longitude, longitude: position.coords.latitude}, status: INFO_STATUS.READY})
         });
 
         getEvents((res, status) => {
@@ -116,6 +116,7 @@ function GameMap() {
     const navigate = useNavigate();
     const [cards, setCards] = useState({state: INFO_STATUS.LOADING});
     const [player, setPlayer] = useState({})
+    const [authKey, setAuthKey] = useState(localStorage.getItem("authKey"));
 
     const WS_URL = `ws://localhost:8000/games/start/`
     const {sendJsonMessage, lastJsonMessage, readyState} = useWebSocket(
@@ -141,7 +142,7 @@ function GameMap() {
                 {
                     "action": "logPlayer",
                     "info": {
-                        "authKey": localStorage.getItem("authKey"),
+                        "authKey": authKey,
                         "eventInfo": {
                             "location": player.coordinates
                         }
@@ -152,13 +153,16 @@ function GameMap() {
     }
 
     useEffect(() => {
-        getCurrentHand((response, status) => {
+        setAuthKey(localStorage.getItem("authKey"));
+
+        getCurrentHand(authKey, (response, status) => {
             if (status === 200) {
                 setCards({state: INFO_STATUS.READY, cards: response.pack});
             } else {
                 setCards({state: INFO_STATUS.ERROR});
             }
         });
+
 
         navigator.geolocation.getCurrentPosition((position) => {
             setPlayer({coordinates: {longitude: position.coords.latitude, latitude: position.coords.longitude}, status: INFO_STATUS.READY})
